@@ -1,0 +1,31 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+
+\documentclass[12pt]{article}
+\usepackage{geometry}
+\geometry{letterpaper}
+
+
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\setromanfont{SimSun} %设置中文字体
+\XeTeXlinebreaklocale “zh”
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt %文章内中文自动换行
+
+
+\newfontfamily{\H}{SimHei}
+\newfontfamily{\E}{Arial}  %设定新的字体快捷命令
+\title{\H G-HASH}
+\author{贾新禹}
+\date{\E\today}
+
+
+\begin{document}
+\maketitle
+\section{相关工作}
+\subsection{子图搜索}
+\subsection{模糊子图搜索}
+\subsection{图相似性搜索}
+
+\end{document}
