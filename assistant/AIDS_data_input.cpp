@@ -25,8 +25,11 @@ bool getOneGraph(int num,Graph *graph)
 	graph->ID=num;
 	if(scanf("%d%d\n",&graph->NumNode,&graph->NumEdge)!=2){
 		error=true;//格式有问题
+		READ=false;
 	}
-
+	if(graph->NumNode>=100){
+		READ=false;//程序限制
+	}
 	graph->NodeName=(char (*)[10])calloc(graph->NumNode,sizeof(char[10]));
 	graph->EdgePair=(int (*)[2])calloc(graph->NumEdge,sizeof(int[2]));
 
@@ -53,7 +56,7 @@ bool getOneGraph(int num,Graph *graph)
 		if(gets(line)==NULL){break;}
 	}
 	if(READ==0){ //异常
-		printf("id:%d NSC:%d result:%d\n",num,NSC,READ);	
+		printf("id:%d NSC:%d NodeNum:%d result:%d\n",num,NSC,graph->NumNode,READ);	
 	}
 	return READ;
 	
