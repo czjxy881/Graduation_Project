@@ -83,11 +83,16 @@ int main(int argc, char **argv)
 {
 	if(argc==1){return 0;}
 	freopen(argv[1],"r",stdin);
+	system("mkdir data");
 	int Num=10;
 	if(argc>=3){Num=atoi(argv[2]);}
-	char OutputFileName[1000];
+	char OutputFileName[1000],realName[1000];
 	FILE *OutputFile;
-	sprintf(OutputFileName,"%s-%d",argv[1],Num);
+	strcpy(realName,argv[1]);
+	while(sscanf(realName,"%*[^/]/%s",realName)==1);
+	sprintf(OutputFileName,"data/%s-%d",realName,Num);
+	printf("%s\n",OutputFileName);
+	fflush(stdout);
 	OutputFile=fopen(OutputFileName,"w");
 	int num=0;
 	Graph graph;
