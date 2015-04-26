@@ -1,6 +1,6 @@
 #!/bin/bash
 aim=$@
-BaseName=$PWD"/BuildResult"_${aim// /_}
+BaseName=$PWD"/dataResult/BuildResult"_${aim// /_}
 fileName=$BaseName
 i=1
 while [ -f "${fileName}.txt" ];do
@@ -26,7 +26,7 @@ for lp in $aim; do
  	cd ..
  	echo $PWD
  	for size in ${x[@]}; do
- 		s=$(./graphbuild ../../Graduation_Project/assistant/AIDO99SD-$size|tail -n 1|cut -c6-)
+ 		s=$(./graphbuild ../../Graduation_Project/assistant/data/AIDO99SD-$size|tail -n 1|cut -c6-)
  		echo -n $s' '>>$fileName
  		rm -fr graphgrepdata
  	done

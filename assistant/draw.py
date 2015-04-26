@@ -6,7 +6,7 @@ TODO:
 2.命令行支持
 '''
 from pylab import *
-
+import sys
 def draw(FileName,Title,XLabel,YLabel):
 	draw_lines=['k-','k--','k-.','k:','ks--','kp--','k*--','k+--','kx--','kD--','kd--'];#线条种类
 	draw_index=0; #线条的索引
@@ -40,5 +40,9 @@ def draw(FileName,Title,XLabel,YLabel):
 	savefig(FileName.split('.')[0]+'.eps')
 
 if __name__=='__main__':
-	draw("BuildResult_4_6_10-1.txt","DataBuild Time","time[s]","database size");
+	FileName='dataResult/BuildResult_4_6_10-1.txt'
+	if len(sys.argv)>1:
+		FileName=sys.argv[1];
+	
+	draw(FileName,"DataBuild Time","database size","time[s]");
 	#draw("BuildResult_4_6_10-1.txt",u"建库时间曲线",u"时间[s]",u"数据库大小"); #输出有问题
