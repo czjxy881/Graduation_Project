@@ -1,0 +1,33 @@
+\ifx\allfile\undefined
+\documentclass{article}
+\usepackage{amsmath}%换行
+\usepackage{ctex}
+\usepackage{indentfirst} %首行缩进
+\begin{document}
+\section{Hash函数实现快速图相似性搜索}
+\else
+\subsection{Hash函数实现快速图相似性搜索}
+\fi
+\subsection{索引构建}
+\subsection{\emph{K-NNs}查询过程}
+为了获得对于给定图的\emph{K-NNs},我们需要计算它和数据库中其他图的距离。以下是我们定义的利用核函数进行两图距离度量的函数
+\begin{equation}
+\begin{split}
+    &d(G,G')=\sqrt{\|\phi(G)-\phi(G')\|_{2}^{2}}\\
+              &=\sqrt{\langle\phi(G)-\phi(G'),\phi(G)-\phi(G')\rangle}\\
+              &=\sqrt{\langle\phi(G),\phi(G)\rangle+\langle\phi(G'),\phi(G')\rangle-2\langle\phi(G),\phi(G')\rangle}\\
+              &=\sqrt{k_{m}(G,G)+k_{m}(G',G')-2k_{m}(G,G')}
+\end{split}
+\end{equation}
+
+公式中$k_{m}(G,G)$代表图$G$和其本身的核函数值，$k_{m}(G',G')$是图$G'$及其本身的值，$k_{m}(G,G')$就是图$G$和$G'$的。在后文中，我们会介绍该如何计算这些值。
+
+尽管在将查询图节点哈希到哈希表时，我们可以得到核函数
+\begin{equation}
+k_{m}(G,G')=\sum_{v\in G',u\in simi(v)}K(\Gamma^{h}(u),\Gamma^{h}(v))
+\end{equation}
+
+
+\ifx\allfiles\undefined
+\end{document}
+\fi
