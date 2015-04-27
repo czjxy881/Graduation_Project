@@ -8,7 +8,9 @@
 \else
 \subsection{Hash函数实现快速图相似性搜索}
 \fi
+
 \subsection{索引构建}
+
 \subsection{\emph{K-NNs}查询过程}
 为了获得对于给定图的\emph{K-NNs},我们需要计算它和数据库中其他图的距离。以下是我们定义的利用核函数进行两图距离度量的函数
 \begin{equation}
@@ -27,6 +29,18 @@
 k_{m}(G,G')=\sum_{v\in G',u\in simi(v)}K(\Gamma^{h}(u),\Gamma^{h}(v))
 \end{equation}
 
+$simi(v)$是一个包含着图$G$和节点$v$哈希到同一个位置的节点集合。我们用以下的解码方式来获取包含这些节点的图号和节点号。
+
+显然，仅利用相似点对而非所有点对来计算两图相似度可以节约很多运算时间。因此为了增加准确度，相似的节点应该被哈希到相邻的位置。在图很大(如大于40)时，我们也要计算相邻位置的节点。
+
+因此在核函数计算时我们只考虑相似点对，在使用RBF核的情况下，$K(\Gamma^{h}(u),\Gamma^{h}(v))\approx1$，所以公式(2)可以写成
+\begin{equation}
+    K(\Gamma^{h}(u),\Gamma^{h}(v))\approx\sum_{v\in G',u\in simi(v)}1=\sum_{v\in G'}|simi(v)| 
+\end{equation}
+
+$|simi(v)|$是在$simi(v)$中的节点数目。这意味着我们只需要统计图$G$中和查询$G'$相似的点个数，其和就是我们要求的核。同理，我们可以这样计算每个图与其自己的核。
+
+在完成上述操作后，我们会得到一个距离向量，其每一个值都对应这一个数据库中的图与查询图的距离，通过对这个距离向量排序，我们就可以得到对于给定的查询的$K-NNs$
 
 \ifx\allfiles\undefined
 \end{document}
