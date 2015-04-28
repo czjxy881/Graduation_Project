@@ -10,7 +10,7 @@
 \makeatletter
 \newcommand\figcaption{\def\@captype{figure}\caption} 
 \newcommand\tabcaption{\def\@captype{table}\caption}
-\renewcommand\figurename{图} 
+\renewcommand\figurename{图表} 
 \makeatother
 \begin{document}
 \section{Hash函数实现快速图相似性搜索}
@@ -24,12 +24,21 @@
 \end{itemize}
 
 基于以上两条发现，我们引入我们的方法:\emph{k}-NNs查询(G-hash).G-Hash是一种利用WA方法进行精确相似度度量，并利用哈希来降低时间复杂度。具体算法见下文。
+
 \subsection{索引构建}
+像WA方法一样，我们首先需要利用小波变换将数据库中的所有图拆解成点向量的形式。因为WA方法对距离参数的选取并不敏感，用不同的小波算法造成的差异也并不大\cite{Graph_wavelet} ，所以我们设定\emph{h}为2，并才用\emph{Haar}小波算法来简化算法
+
+当图完全拆解成节点向量后，我们就可以利用这些向量构建哈希表。这时，我们需要一个哈希函数来把相似的节点哈希到相同的位置。这就意味着我们要基于节点向量构建哈希键。我们可以用和构造节点向量同样的思想构建哈希键，即利用节点标号和邻接信息来构造。我们将每一个节点向量中的特征信息离散成一个整数，并将每个节点标签直接编码为一个n位的字符串（除去一个代表本身标号的1，其他全0）。其他特征就近似到最近的整数上。当节点向量变成了一个整数列表后，我们再把节点向量变为一个字符串(用二进制表示每个整数，并用下划线连接)。这样的一个字符串就是对于节点的哈希键。我们以图表1的图P来举例说明。
+
 
 \tikzstyle{vertex}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
 \tikzstyle{selected vertex} = [vertex, fill=red!24]
 \tikzstyle{edge} = [draw,thick,-]
-\begin{figure}[htb]
+\begin{figure}[htbp]
+
+
+\begin{minipage}{\textwidt}
+例子 4.1. \emph{我们选取节点标签和不同标号的邻接节点个数作为节点特征}
 \subfigure[P]{   
 \begin{minipage}{0.5\textwidth}
     \centering
@@ -69,7 +78,7 @@
 }
 \caption{一幅简单图}
 \end{figure}
-
+\end{minipage}
 
 
 
