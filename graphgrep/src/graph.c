@@ -58,18 +58,36 @@ void GraphWriteFingerprintsInFile(Graph gr,int ELM)
   fclose(gr->fpf);
 }
 
-
-
+/* ELFHash
+int  Hash(char *type, int H) /*64进制 101取模
+{
+  unsigned long h=H;
+  unsigned long x=0;
+  while(*type)
+    {
+        h=(h<<4)+(*type++);  //h左移4位，当前字符ASCII存入h的低四位
+        if( (x=h & 0xF0000000L)!=0)
+        { //如果最高位不为0，则说明字符多余7个，如果不处理，再加第九个字符时，第一个字符会被移出
+          //因此要有如下处理
+          h^=(x>>24);
+          //清空28~31位
+          h&=~x;
+        }
+    }
+  return h%HASH;
+}
+*/
 /* ********************************************************************** */
-int  Hash(char *type, int h) /*64进制 101取模*/
+int  Hash(char *type, int H) /*64进制 101取模*/
 {
   int k=0;
+  unsigned int h=H;
   while(type[k] != '\0' && type[k] != '\n' && type[k] !='\r')
     {
-      h=(64*h + type[k]) % HASH;
+      h=(h<<6 + type[k]);
       k++;
     }  
-  return h;
+  return (h&0x7FFFFFFF)%HASH ;
 }
 
 /* ********************************************************************** */

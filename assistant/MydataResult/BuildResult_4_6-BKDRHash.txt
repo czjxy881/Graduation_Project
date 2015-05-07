@@ -1,0 +1,18 @@
+x 1000 2000 4000 8000 16000
+BKDRlp4 1.50383 3.09193 10.616 15.7565 31.7419 
+BKDRlp6 3.39836 6.84392 15.5926 35.0898 77.6704 
+
+
+unsigned int BKDRHash(char *str)
+{
+    unsigned int seed = 131; // 31 131 1313 13131 131313 etc..
+    unsigned int hash = 0;
+
+    while (*str)
+    {
+        hash = hash * seed + (*str++);
+    }
+
+    return (hash & 0x7FFFFFFF);
+}
+

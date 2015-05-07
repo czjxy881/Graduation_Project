@@ -1,0 +1,24 @@
+x 1000 2000 4000 8000 16000
+APlp4 3.14759 4.37246 6.97579 22.4681 30.6478 
+APlp6 3.60395 6.99241 15.067 32.5315 74.1308 
+
+
+unsigned int APHash(char *str)
+{
+    unsigned int hash = 0;
+    int i;
+
+    for (i=0; *str; i++)
+    {
+        if ((i & 1) == 0)
+        {
+            hash ^= ((hash << 7) ^ (*str++) ^ (hash >> 3));
+        }
+        else
+        {
+            hash ^= (~((hash << 11) ^ (*str++) ^ (hash >> 5)));
+        }
+    }
+
+    return (hash & 0x7FFFFFFF);
+}

@@ -18,7 +18,6 @@ for lp in $aim; do
 	code="sed -i '' 's/LengthPath= 4/LengthPath= ${lp}/' ./graphbuild.c"
 	codere="sed -i '' 's/LengthPath= ${lp}/LengthPath= 4/' ./graphbuild.c"
 	echo -n 'lp'$lp' '>>$fileName
-
 	cd src
  	echo $code|sh
  	make
