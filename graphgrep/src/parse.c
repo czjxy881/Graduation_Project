@@ -383,7 +383,7 @@ void check(Parse p, char c)
   if(isdigit(c)!=0) /*Cycle-edge */
     {
       if (p->flag==1) /*The number of the cycle-edge has more than 1 digit*/ 
-		  sprintf(p->number,"%s%c",p->number,c);
+		  sprintf(p->number+strlen(p->number),"%c",c);
       else 
 		  {
 			 fprintf(p->fptypes,"%c",c); 

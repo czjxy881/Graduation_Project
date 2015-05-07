@@ -95,7 +95,7 @@ int GetElementInString(Query q)
 		q->p++;
 	while(q->p[0]!=' ' && q->p[0]!='\0')
     {
-		sprintf(str,"%s%c",str,q->p[0]);
+		sprintf(str+strlen(str),"%c",q->p[0]);
 		q->p++;
     }
 	indop=atoi(str);
@@ -130,12 +130,12 @@ void BuildInfomation(int numop, int num, Query q){
 				p1++;
 			while(p1[0]!=' ' && p1[0]!='\0')
 			{
-				sprintf(str,"%s%c",str,p1[0]); //TODO 
+				sprintf(str+strlen(str),"%c",p1[0]); //TODO 
 				p1++;
 			}
 			elm=atoi(str);
 			
-			sprintf(q->qtypeG[elm],"%s %d %d",q->qtypeG[elm],i,pos);
+			sprintf(q->qtypeG[elm]+strlen(q->qtypeG[elm])," %d %d",i,pos);
 			
 			q->qouttable[elm]=q->lengthtables+pos;
 			//q->qouttable[elm*2+1]=pos;
@@ -148,7 +148,7 @@ void BuildInfomation(int numop, int num, Query q){
 		//The length of path sequence is not right for new implement
 		//lenghtableop[i]=lenghtpath;
 		//q->lengthtables=q->lengthtables+lenghtpath;
-		//sprintf(q->outlentable,"%s %d",q->outlentable,lenghtableop[i]);		
+		//sprintf(q->outlentable+strlen(q->outlentable)," %d",lenghtableop[i]);		
 	}
 
 }
@@ -200,7 +200,7 @@ void getElementInStr(char* str,int num,char* ret){
 			}
 
 			if(flag==1 &&  count == (num+1)){
-				sprintf(retstr,"%s%c",retstr,pos[i]);
+				sprintf(retstr+strlen(retstr),"%c",pos[i]);
 			}
 
 		}else{
@@ -241,7 +241,7 @@ void getPathPos(char* in_patharray, int in_pathnum,char* out_retstr){
 					space=1;
 				}
 
-				sprintf(out_retstr,"%s%c",out_retstr,pos[i]);
+				sprintf(out_retstr+strlen(out_retstr),"%c",pos[i]);
 			}
 			
 		}else{
@@ -272,7 +272,7 @@ void getPathNum(char* in_pathPos, char* out_pathNum){
 				count++;
 			}
 			if(flag==1&& count == 1){
-				sprintf(out_pathNum,"%s%c",out_pathNum,pos[i]);
+				sprintf(out_pathNum+strlen(out_pathNum),"%c",pos[i]);
 			}
 		}else{
 			if(flag==1){
@@ -303,7 +303,7 @@ void getPos(char* in_pathPos, char* out_pos){
 				count++;
 			}
 			if(flag==1&& count == 2){
-				sprintf(out_pos,"%s%c",out_pos,pos[i]);
+				sprintf(out_pos+strlen(out_pos),"%c",pos[i]);
 			}
 		}else{
 			if(flag==1){
@@ -464,12 +464,12 @@ void getUniqueid(Query q,char* uniqueid,int current_len,int add_len,int pos0, in
 	if(uniqueid[0]=='\0'){   //start from empty
 		if(pos0==-1 && pos1==-1){
 			for(i=0;i<current_len;i++){
-				sprintf(tmp,"%s %d",tmp,i);
+				sprintf(tmp+strlen(tmp)," %d",i);
 			}		
 		}else{
 			for(i=0;i<current_len;i++){
 				if(i!=pos0 && i!=(pos1+offset)){
-					sprintf(tmp,"%s %d",tmp,i);
+					sprintf(tmp+strlen(tmp)," %d",i);
 				}
 			}
 		}
@@ -484,7 +484,7 @@ void getUniqueid(Query q,char* uniqueid,int current_len,int add_len,int pos0, in
 		//add the new path into uniqueID
 		for(k=0;k<add_len;k++){
 			if(k!=pos1){
-				sprintf(tmp,"%s %d",tmp,k+offset);
+				sprintf(tmp+strlen(tmp)," %d",k+offset);
 			}
 		}
 	}else
@@ -495,7 +495,7 @@ void getUniqueid(Query q,char* uniqueid,int current_len,int add_len,int pos0, in
 		//add the new path into uniqueID
 		for(k=0;k<add_len;k++){
 			if(k!=pos1){
-				sprintf(tmp,"%s %d",tmp,k+offset);
+				sprintf(tmp+strlen(tmp)," %d",k+offset);
 			}
 		}
 	}
@@ -550,7 +550,7 @@ int checkloop(Query q,char** opf,int* opcount,char* uniqueid,char* pathPos,char*
 				strcpy(posarray,"");
 				for(k=0;k<count;k++){
 					if(k!=j && k!=i){
-						sprintf(posarray,"%s %d",posarray,k);
+						sprintf(posarray+strlen(posarray)," %d",k);
 					}
 				}
 				if(first==1){
@@ -608,8 +608,8 @@ void do_intersect_testunique(Query q,char** opf,int* opcount,char* current_table
 
 	//output the joined tables and their intersection points
 	sprintf(output_str,"INTERSECT qoutable%d",q->jop);
-	sprintf(output_str,"%s %s %d",output_str, current_table, i_IntrSct1);
-	sprintf(output_str,"%s %s %d",output_str, q->qoperation[i_path],i_pos);
+	sprintf(output_str+strlen(output_str)," %s %d", current_table, i_IntrSct1);
+	sprintf(output_str+strlen(output_str)," %s %d", q->qoperation[i_path],i_pos);
 
 	sprintf(current_table,"qoutable%d",q->jop);
 
@@ -621,7 +621,7 @@ void do_intersect_testunique(Query q,char** opf,int* opcount,char* current_table
 	q->current_len=q->current_len+add_len;
 
 	//write output path length information 10/23/03
-	sprintf(q->outlentable,"%s %d",q->outlentable,add_len);
+	sprintf(q->outlentable+strlen(q->outlentable)," %d",add_len);
 
 	
 	getUniqueid(q,uniqueid,q->current_len,add_len,i_IntrSct1,i_pos);
@@ -654,9 +654,9 @@ void do_intersect_testunique(Query q,char** opf,int* opcount,char* current_table
 	sprintf(output_str,"TESTUNIQUE qoutable%d",q->jop);
 
 	if(strlen(uniqueid)!=0){		//special case, all nodes testunique before
-		sprintf(output_str,"%s qoutable%d %s",output_str,(q->jop)-1,uniqueid);
+		sprintf(output_str+strlen(output_str)," qoutable%d %s",(q->jop)-1,uniqueid);
 	}else{
-		sprintf(output_str,"%s qoutable%d -1",output_str,(q->jop)-1);
+		sprintf(output_str+strlen(output_str)," qoutable%d -1",(q->jop)-1);
 		strcpy(uniqueid,"-");
 	}
 
@@ -786,7 +786,7 @@ void CreateOperationOutput(Query q, char** opf,int* opcount,int current_len,char
 				if (str[0]=='\0'){
 					sprintf(str,"%d",atoi(tmp)+q->wildlengthtables);
 				}else{
-					sprintf(str,"%s %d",str,atoi(tmp)+q->wildlengthtables);
+					sprintf(str+strlen(str)," %d",atoi(tmp)+q->wildlengthtables);
 				}
 				token=strtok(NULL,tokensep);
 			}
@@ -799,12 +799,12 @@ void CreateOperationOutput(Query q, char** opf,int* opcount,int current_len,char
 
 	q->wildlengthtables=q->wildlengthtables+current_len;
 
-	sprintf(q->wildpositions,"%s %s",q->wildpositions,str);
+	sprintf(q->wildpositions+strlen(q->wildpositions)," %s",str);
 
 	if(table[0]=='\0'){	//not isolated node, add index to q->wildlengthtables
-		sprintf(q->spit,"%s qoutable%d",q->spit,q->jop-1);
+		sprintf(q->spit+strlen(q->spit)," qoutable%d",q->jop-1);
 	}else{
-		sprintf(q->spit,"%s %s",q->spit,table);
+		sprintf(q->spit+strlen(q->spit)," %s",table);
 	}
 
 	while(opf[i][0]!='\0'){
@@ -870,7 +870,7 @@ void BuildOperations(int numop, int num, Query q){
 	q->current_len=getNumElementInStr(q->qpath[0]);
 	//printf("------%d-------\n",q->current_len);
 	//write output path length information 10/23/03
-	sprintf(q->outlentable,"%s %d",q->outlentable,q->current_len);
+	sprintf(q->outlentable+strlen(q->outlentable)," %d",q->current_len);
 	//printf("------%s-------\n",q->outlentable);
 	if(numop==1 && q->current_len==1){  //isolated node
 		CreateOperationOutput(q,opf,&opcount,1,"",q->qoperation[0]);				
@@ -1052,8 +1052,8 @@ void Traverse(Query q,int* G,char **typeG, int index,int num){
 			
 			if(q->count_in_path >= LengthPath+1){ //break for 2 connected path if length > LengthPath
 
-				sprintf(q->qpath[q->numpath],"%s %d",q->qpath[q->numpath],index);	//TODO 可优化 直接指针		
-				sprintf(q->qoperation[q->numpath],"%s%s",q->qoperation[q->numpath],typeG[index]);
+				sprintf(q->qpath[q->numpath]+strlen(q->qpath[q->numpath])," %d",index);	//TODO 可优化 直接指针		
+				sprintf(q->qoperation[q->numpath]+strlen(q->qoperation[q->numpath]),"%s",typeG[index]);
 
 				q->count_in_path=1;
 				q->numpath++;
@@ -1070,8 +1070,8 @@ void Traverse(Query q,int* G,char **typeG, int index,int num){
 			}
 				
 //			printf(" %d -> ",index);
-			sprintf(q->qpath[q->numpath],"%s %d",q->qpath[q->numpath],index);			
-			sprintf(q->qoperation[q->numpath],"%s%s",q->qoperation[q->numpath],typeG[index]);
+			sprintf(q->qpath[q->numpath]+strlen(q->qpath[q->numpath])," %d",index);			
+			sprintf(q->qoperation[q->numpath]+strlen(q->qoperation[q->numpath]),"%s",typeG[index]);
 			Traverse(q,G,typeG,n,num);
 			q->dimconnect++;
 		}
@@ -1081,8 +1081,8 @@ void Traverse(Query q,int* G,char **typeG, int index,int num){
 		q->count_in_path=0;
 //		printf(" %d\n",index);
 
-		sprintf(q->qpath[q->numpath],"%s %d",q->qpath[q->numpath],index);			
-		sprintf(q->qoperation[q->numpath],"%s%s",q->qoperation[q->numpath],typeG[index]);
+		sprintf(q->qpath[q->numpath]+strlen(q->qpath[q->numpath])," %d",index);			
+		sprintf(q->qoperation[q->numpath]+strlen(q->qoperation[q->numpath]),"%s",typeG[index]);
 		
 		q->numpath++;
 		
@@ -1356,7 +1356,7 @@ void CheckInOutTableWildConnection(Query q, char *str1)
   assert(fp);
   q->ss = StringSetCreate(avn, avl, aves);
   StringSetInz(q->ss);
-  sprintf(str1,"%s%s",str1,"put");
+  sprintf(str1+strlen(str1),"%s","put");
   fpout=fopen(str1,"w+");
   assert(fpout);
   
@@ -1376,7 +1376,7 @@ void CheckInOutTableWildConnection(Query q, char *str1)
 		  strcpy(count,"");
 		  while(output[iz]!='|') 
 		  {
-			  sprintf(count,"%s%c",count,output[iz]);
+			  sprintf(count+strlen(count),"%c",output[iz]);
 			  iz++;
 		  }
 #ifdef DEBUG
