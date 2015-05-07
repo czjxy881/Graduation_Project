@@ -1,0 +1,11 @@
+graph.o: graph.c common.h graph.h stringset.h
+stringset.o: stringset.c common.h stringset.h
+path.o: path.c common.h graph.h path.h
+loadfinger.o: loadfinger.c common.h loadfinger.h
+filter.o: filter.c common.h filter.h
+query.o: query.c common.h commonstruct.h stringset.h query.h
+parse.o: parse.c common.h commonstruct.h parse.h
+update.o: update.c common.h graph.h path.h update.h
+debug.o: debug.c common.h
+dataoperation.c: common.h dataoperation.h
+table.c: common.h table.h
