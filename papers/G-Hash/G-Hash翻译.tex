@@ -8,7 +8,7 @@
 \usepackage{indentfirst} %首行缩进
 \usepackage{amsmath}%换行
 \usepackage{ctex}
-
+\usepackage{amsfonts, amssymb}%数学字体
 \usepackage{tikz}%绘图
 \usepackage{subfigure}
 \usepackage{graphicx}
@@ -19,11 +19,14 @@
 \renewcommand\figurename{图} 
 \makeatother
 \usepackage{float}
+\usepackage[bookmarksnumbered]{hyperref}
+
 
 \title{G-HASH\cite{G-HASH}}
 \author{贾新禹}
 \begin{document}
 \maketitle
+\tableofcontents
 \section{相关工作}
 \subsection{子图搜索}
 \subsection{模糊子图搜索}
@@ -36,6 +39,8 @@
 
 \subsection{图核函数 Graph Kernel Functions}
 目前业界有很多图核函数，而开创性的一个图核函数是Haussler在他对\emph{R卷积核(R-convolution kernel)}的研究中提出的。现在大多数图核函数都遵循它提出的这种框架。R卷积核是基于把离散的结构(如图)分解成一系列的组成元素(子图)这个思想的。我们可以定义许多这样的分解,就像组成成分中的核心一样。R卷积核保证无论选择怎样的分解方式或者成分核心，都能得要一个对称的，半正定的正函数，或者一个成分间的核函数
+\input{3}
+\input{4}
 \input{4.2}
 
 

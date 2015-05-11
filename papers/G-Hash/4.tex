@@ -1,0 +1,32 @@
+\ifx\allfiles\undefined
+\documentclass{article}
+\usepackage{amsmath}%换行
+\usepackage{ctex}
+\usepackage{tikz}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{amsfonts, amssymb}%数学字体
+
+\usepackage{indentfirst} %首行缩进
+\makeatletter
+\newcommand\figcaption{\def\@captype{figure}\caption} 
+\newcommand\tabcaption{\def\@captype{table}\caption}
+\renewcommand\figurename{图表} 
+\makeatother
+\usepackage{float}
+
+\begin{document}
+
+\else
+
+\fi
+\section{基于哈希的快速图相似性搜索}
+正如之前所说，现在的图查询算法查询时间很快但是没有好的相似性度量方法。核函数可以提供一个好的相似性度量方法，但是核函数的矩阵运算需要大量的时间，所以我们很难直接利用其来建立索引。为了解决这个问题，我们提出了一种新的算法，G-Hash。现在的算法常常关注速度或精度的一种,而G-Hash在两者效果均很好。我们利用小波图匹配核(WA)来定义相似性，并用Hash表作为索引结构来加速图相似性查询。下面我们先介绍下WA方法。
+
+\ifx\allfiles\undefined
+%\renewcommand\refname{参考文献}
+%\bibliographystyle{unsrt}
+%\bibliography{G-Hash翻译}
+\end{document}
+\fi
