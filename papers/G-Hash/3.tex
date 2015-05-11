@@ -1,0 +1,35 @@
+\ifx\allfiles\undefined
+\documentclass{article}
+\usepackage{amsmath}%换行
+\usepackage{ctex}
+\usepackage{tikz}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{indentfirst} %首行缩进
+\makeatletter
+\newcommand\figcaption{\def\@captype{figure}\caption} 
+\newcommand\tabcaption{\def\@captype{table}\caption}
+\renewcommand\figurename{图表} 
+\makeatother
+\usepackage{float}
+
+
+\begin{document}
+\section{背景知识}
+\else
+\subsection{背景知识}
+\fi
+在我们详细介绍算法细节之前，让我们先了解一下关于图分析计算的所需的基本背景。这章包含(i)图核函数，(ii)图小波分析两部分。
+\subsection{图}
+一个\emph{标号图}可以被一个有限的节点集合$V$和一个有限的边集合$E\in V\times V$所描述。在大多数应用中，图都是有标号的。这些标号都是从一个标号集选取的，我们用一个标号函数$\lambda :V\cup E\rightarrow \Sigma$来给各个节点和边分配标号。在\emph{标号点图}中只有点有标号，同样，在\emph{标号边图}中只有边有标号。在\emph{全标号图}中，边点都有标号。如果用一种特殊的标号来表示未标号的点和边，那么标号点图和标号边图都可以被看做是全标号图的特殊形式。所以在此文中我们只考虑全标号图来简化问题而又不失一般性。对于标号集$\Sigma$我们并不指定具体结构，可以是一个字段,一个向量，也可以是很简单的是个集合。
+以下我们约定，一个图用一个四元组$G=(V,E,\Sigma ,\lambda )$表示,$V,E,\Sigma,\lambda$都如上文所述。如果一个图$G=(V,E,\Sigma,\lambda)$和另一个图$G'=(V',E',\Sigma',\lambda')$有1-1映射的关系$f:V\rightarrow V'$，如对于所有，那么图$G$就是$G'$的\emph{子图}，用$G\in G' $表示
+
+
+
+\ifx\allfiles\undefined
+%\renewcommand\refname{参考文献}
+%\bibliographystyle{unsrt}
+%\bibliography{G-Hash翻译}
+\end{document}
+\fi
