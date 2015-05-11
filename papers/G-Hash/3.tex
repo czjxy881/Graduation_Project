@@ -33,13 +33,18 @@
 \end{itemize}
 换言之，如果一幅图保持着另一幅图的所节点标签，边关系，和边标签，那么这副图就是另一幅图的子图。
 一个\emph{通路(walk)}是一个节点列表$v_1,v_2,...,v_n$,对于所有$i\in [1,n-1]$,$v_i$和$v_{i+1}$有边连接。一个\emph{路径(path)}是一个不含重复节点的通路,即对于所有$i\neq j,v_i \neq v_j$。
-\subsection{再谈核Hilbert空间}
+\subsection{再生Hilbert空间}
 对于大量图数据的分析，核函数是一个很强大的处理工具。核函数的优势在于它无需精确计算对应点对就可以把一组数据放入一个高维的Hibert空间。我们用一个叫做\emph{核}的函数来处理这个过程。
 一个二元函数$K:X\times X\rightarrow \mathbb{R}$ 如果符合以下公式，则它是一个\emph{半正定}函数。
 \begin{equation}
     \sum_{i,j=1}^{m}c_i c_j K(x_i ,x_j )\geq 0
 \end{equation}
-上式中$m\in \mathbb{N}$,例子$x_i \in X(i=[1,n])$,系数集$c_i \in \mathbb{R}(i=[1,n])$。另外，如果$对于所有x,y\in 都有X,K(x,y)=K(y,x)$那么这个二元函数就是\emph{对称的}。一个对称半正定函数保证存在一个Hibert空间$\mathcal{H}$和一个映射$\Phi:X\rightarrow \mathcal{H} $
+上式中$m\in \mathbb{N}$,例子$x_i \in X(i=[1,n])$,系数集$c_i \in \mathbb{R}(i=[1,n])$。另外，如果$对于所有x,y\in 都有X,K(x,y)=K(y,x)$那么这个二元函数就是\emph{对称的}。一个对称半正定函数保证存在一个Hilbert空间$\mathcal{H}$和一个映射$\Phi:X\rightarrow \mathcal{H} $,例如
+\begin{equation}
+    k(x,x')=\langle\Phi(x),\Phi(x')\rangle
+\end{equation}
+对于所有的$x,x'\in X $。$\langle x,y\rangle$表示$x与y$的内积。这个结果就是我们所熟悉的Mercer定理。一个对称半正定函数又称为Mercer核函数简称为\emph{核}函数。
+通过将数据空间变为Hilbert空间，核函数提供了一种对包括图在内的不同数据的统一分析环境。即使一开始的数据空间根本不像一个向量空间，也可以统一化。我们称这种归一化方法为"核诀窍"，并将其应用在许多不同的数据分析任务上，包括分类，回归，通过准则分析的特征提取等。
 
 
 
