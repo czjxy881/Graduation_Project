@@ -6,6 +6,8 @@
 \usepackage{subfigure}
 \usepackage{graphicx}
 \usepackage{caption}
+\usepackage{amsfonts, amssymb}%数学字体
+
 \usepackage{indentfirst} %首行缩进
 \makeatletter
 \newcommand\figcaption{\def\@captype{figure}\caption} 
@@ -23,7 +25,21 @@
 在我们详细介绍算法细节之前，让我们先了解一下关于图分析计算的所需的基本背景。这章包含(i)图核函数，(ii)图小波分析两部分。
 \subsection{图}
 一个\emph{标号图}可以被一个有限的节点集合$V$和一个有限的边集合$E\in V\times V$所描述。在大多数应用中，图都是有标号的。这些标号都是从一个标号集选取的，我们用一个标号函数$\lambda :V\cup E\rightarrow \Sigma$来给各个节点和边分配标号。在\emph{标号点图}中只有点有标号，同样，在\emph{标号边图}中只有边有标号。在\emph{全标号图}中，边点都有标号。如果用一种特殊的标号来表示未标号的点和边，那么标号点图和标号边图都可以被看做是全标号图的特殊形式。所以在此文中我们只考虑全标号图来简化问题而又不失一般性。对于标号集$\Sigma$我们并不指定具体结构，可以是一个字段,一个向量，也可以是很简单的是个集合。
-以下我们约定，一个图用一个四元组$G=(V,E,\Sigma ,\lambda )$表示,$V,E,\Sigma,\lambda$都如上文所述。如果一个图$G=(V,E,\Sigma,\lambda)$和另一个图$G'=(V',E',\Sigma',\lambda')$有1-1映射的关系$f:V\rightarrow V'$，如对于所有，那么图$G$就是$G'$的\emph{子图}，用$G\in G' $表示
+以下我们约定，一幅图用一个四元组$G=(V,E,\Sigma ,\lambda )$表示,$V,E,\Sigma,\lambda$都如上文所述。如果一幅图$G=(V,E,\Sigma,\lambda)$和另一幅图$G'=(V',E',\Sigma',\lambda')$有1-1映射的关系$f:V\rightarrow V'$，那么图$G$就是$G'$的\emph{子图}，用$G\in G' $表示。1-1映射可以有这么几种
+\begin{itemize}
+    \item 对于所有$v\in V,\lambda(v)=\lambda '(f(v))$
+    \item 对于所有$(u,v)\in E,(f(u),f(v))\in E'$
+    \item 对于所有$(u,v)\in E,\lambda(u,v)=\lambda '(f(u),f(v)) $
+\end{itemize}
+换言之，如果一幅图保持着另一幅图的所节点标签，边关系，和边标签，那么这副图就是另一幅图的子图。
+一个\emph{通路(walk)}是一个节点列表$v_1,v_2,...,v_n$,对于所有$i\in [1,n-1]$,$v_i$和$v_{i+1}$有边连接。一个\emph{路径(path)}是一个不含重复节点的通路,即对于所有$i\neq j,v_i \neq v_j$。
+\subsection{再谈核Hilbert空间}
+对于大量图数据的分析，核函数是一个很强大的处理工具。核函数的优势在于它无需精确计算对应点对就可以把一组数据放入一个高维的Hibert空间。我们用一个叫做\emph{核}的函数来处理这个过程。
+一个二元函数$K:X\times X\rightarrow \mathbb{R}$ 如果符合以下公式，则它是一个\emph{半正定}函数。
+\begin{equation}
+    \sum_{i,j=1}^{m}c_i c_j K(x_i ,x_j )\geq 0
+\end{equation}
+上式中$m\in \mathbb{N}$,例子$x_i \in X(i=[1,n])$,系数集$c_i \in \mathbb{R}(i=[1,n])$。另外，如果$对于所有x,y\in 都有X,K(x,y)=K(y,x)$那么这个二元函数就是\emph{对称的}。一个对称半正定函数保证存在一个Hibert空间$\mathcal{H}$和一个映射$\Phi:X\rightarrow \mathcal{H} $
 
 
 
