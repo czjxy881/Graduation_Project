@@ -249,23 +249,25 @@
         }
     \fi
     \clearpage
+    
     \if@twoside
     \thispagestyle{empty}
-    \ifXDBA@typeinfo
-        \vspace*{\stretch{1}}
-        \begin{footnotesize}
-            {\bf\noindent Contributers:}
-            \begin{description}
-                \item[HaoChen] write the statement page
-                \item[Olorin183795] bug report
-                \item[yzg3307] bug report
-            \end{description}
-            \noindent
-            Author by Xue-Jilong ( xuejilong@gmail.com ) and Justin-Wong ( bigeagle@xdlinux.info )\\
-            Typeset by \LaTeXe{} and \CTeX{} and provide for Bachelor Thesis of Xidian University. \\
-            The first page will not appear in your final thesis paper.  Take it easy for this copyright footnote. :-)
-        \end{footnotesize}
-    \fi
+%    
+%    \ifXDBA@typeinfo
+%        \vspace*{\stretch{1}}
+%        \begin{footnotesize}
+%            {\bf\noindent Contributers:}
+%            \begin{description}
+%                \item[HaoChen] write the statement page
+%                \item[Olorin183795] bug report
+%                \item[yzg3307] bug report
+%            \end{description}
+%            \noindent
+%            Author by Xue-Jilong ( xuejilong@gmail.com ) and Justin-Wong ( bigeagle@xdlinux.info )\\
+%            Typeset by \LaTeXe{} and \CTeX{} and provide for Bachelor Thesis of Xidian University. \\
+%            The first page will not appear in your final thesis paper.  Take it easy for this copyright footnote. :-)
+%        \end{footnotesize}
+%    \fi
     \cleardoublepage
   \fi
 }
