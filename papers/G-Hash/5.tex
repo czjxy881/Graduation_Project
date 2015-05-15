@@ -1,0 +1,36 @@
+\ifx\allfiles\undefined
+\documentclass{article}
+\usepackage{amsmath}%换行
+\usepackage{ctex}
+\usepackage{tikz}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{amsfonts, amssymb}%数学字体
+
+\usepackage{indentfirst} %首行缩进
+\makeatletter
+\newcommand\figcaption{\def\@captype{figure}\caption} 
+\newcommand\tabcaption{\def\@captype{table}\caption}
+\renewcommand\figurename{图表} 
+\makeatother
+\usepackage{float}
+
+\begin{document}
+
+\else
+
+\fi
+\section{实验研究}
+我们对我们的算法进行了广泛的实验研究来评估其有效性,高效性及扩展性。我们在化学分子结构上测试我们的算法。对于化学结构，节点特征包括数值特征和原子布尔特征。数值特征包括元素种类,原子部分电荷，原子电子亲和势，原子自由电子数目和原子价态等等。布尔特征包括原子是否在供体中，是否在末端碳中，是否在环中，是否为负，是否是轴向的等等。在实验中，我们仅用一个原子特征:元素种类。
+
+我们将我们的方法和小波分配核，C-tree,GraphGrep还有gIndex进行比对。我们的算法，WA算法，GraphGrep和gIndex是基于C++实现的，用g++进行编译。C-tree是用Java实现的，用Sun JDK 1.5.0编译。所有的实验都是在Intel Xeon EM64T 3.2GHz，4G内存，Linux系统这一平台上测试的。
+
+
+
+\ifx\allfiles\undefined
+%\renewcommand\refname{参考文献}
+%\bibliographystyle{unsrt}
+%\bibliography{G-Hash翻译}
+\end{document}
+\fi
