@@ -26,7 +26,10 @@
 
 我们将我们的方法和小波分配核，C-tree,GraphGrep还有gIndex进行比对。我们的算法，WA算法，GraphGrep和gIndex是基于C++实现的，用g++进行编译。C-tree是用Java实现的，用Sun JDK 1.5.0编译。所有的实验都是在Intel Xeon EM64T 3.2GHz，4G内存，Linux系统这一平台上测试的。
 
+WA,G-Hash,C-tree,GraphGrep和gIndex的参数是这样设置的。对于WA和G-hash,h取2，用\emph{haar}小波函数，对于C-tree，用默认值即将最小子节点数m设为20，最大M设为$2m-1$，用NBM方法进行图映射。对于GraphGrep和gIndex，全部采用默认参数。
 
+\subsection{数据集}
+我们选用许多数据集来进行试验。前五个数据集是从从Jorisson/Gilson数据集获得的已有数据。接下来六个是从BindingDB数据集中抽取的，最后一个是NCI/NIH 艾滋病筛选集里的，表1显示了这些数据集和其基本情况。
 
 \ifx\allfiles\undefined
 %\renewcommand\refname{参考文献}
