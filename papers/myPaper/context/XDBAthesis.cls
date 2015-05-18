@@ -56,7 +56,8 @@
 %\fi
 % set equation numer as (1-5)
 \renewcommand{\theequation}{\thechapter-\arabic{equation}}
-
+\newcommand\figcaption{\def\@captype{figure}\caption} 
+\newcommand\tabcaption{\def\@captype{table}\caption}
 %% check pdfTeX mode
 \RequirePackage{ifpdf}
 %% check XeLaTeX mode
@@ -74,6 +75,7 @@
 %% for dashedUnderline
 \RequirePackage{ulem}
 %% packages and settings depend on PDF mode
+\RequirePackage{tikz,subfigure}
 
 \ifpdf   % We're running pdfTeX in PDF mode
     \RequirePackage[pdftex]{hyperref}
