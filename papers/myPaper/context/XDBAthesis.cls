@@ -76,6 +76,8 @@
 \RequirePackage{ulem}
 %% packages and settings depend on PDF mode
 \RequirePackage{tikz,subfigure}
+%% drawing package
+\RequirePackage{todonotes}
 
 \ifpdf   % We're running pdfTeX in PDF mode
     \RequirePackage[pdftex]{hyperref}
