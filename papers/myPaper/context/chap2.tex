@@ -37,6 +37,10 @@
 \end{itemize}
 \end{defn}
 换言之，如果一幅图和另一幅图的节点标签，边关系，边标签能一一对应上，那么这副图就是另一幅图的子图。如图\ref{fg:sub}就是图一个\ref{fg:label}的子图，节点标签，边关系及边标签均可一一对应，只有标识可以不同。
+\begin{defn}[超图]
+    如果图$G$是图$G'$的子图，则$G'$是$G$的\emph{超图}。对于图\ref{fg:label}和图\ref{fg:sub},图\ref{fg:sub}是图\ref{fg:label}的子图，所以图\ref{fg:label}是图\ref{fg:sub}的超图。
+\end{defn}
+
 \begin{defn}[顶点的度\cite{GraphAlgorithm}]
     一个顶点$u$的\emph{度}数是与它相关联的边的数目，记做$degree(u)$。$degree(v_i )=|E(v_i )|,v_i \in V(i=1,2,...,n)$，图\ref{fg:label}中$v_2 $的度$degree(v_2 )=5$，图\ref{fg:sub}中$v_2 $的度为$degree(v_2)=4$。
 \end{defn}
@@ -84,6 +88,11 @@
 \end{minipage}
     
 \section{图查询类型}
+根据图之间的包含关系，可将图查询分为子图查询和超图查询。根据图查询的精确程度，可以将其分为精确查询和相似查询。
+\begin{defn}[子图查询\cite{FSD}]
+子图查询的问题为:对于给定的一个查询图，返回图数据库中所有查询图的超图。给定一个图数据库$GD$和一个查询图$q$，子图查询的目的是找出在$GD$中所有包含$q$或者$q$的同构的图的集合，最后返回该超图集合$Q$。$Q={g|g\in GD\wedge q\subseteq g}$。
+\end{defn}
+
 
 
 
