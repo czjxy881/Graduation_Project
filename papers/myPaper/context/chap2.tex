@@ -1,7 +1,7 @@
 \ifx\allfiles\undefined
 \def\pictures{}
 \documentclass{XDBAthesis}
-\usepackage{subfigure}
+\usepackage{todonotes}
 \graphicspath{{../figures/}{../omnigraffle/}}
 \begin{document}
 \else
@@ -83,15 +83,20 @@
         0 & , else    
     \end{aligned}\right. 
 \end{equation}
+
+\todo{增加邻接矩阵图} 
+
 \subsection{邻接表}
     \emph{邻接表}就是将同一个顶点发出的边连接在同一个称为边链表的单链表中。边链表的每个节点代表一条边，称为边节点。每个边节点有两个域：该边终点的序号以及下一个边节点的指针。
-    \begin{figure}[htb]
-        \centering
-        \includegraphics[width=0.4\textwidth]{../figures/BasicGraph_GraphExample}
-        \includegraphics[width=0.4\textwidth]{../figures/BasicGraph_AdjacencyListRepresentation}
-        \caption{邻接表}
-        \label{fg:adjacencyList}
-    \end{figure}
+    
+\todo{增加邻接表图}   
+%    \begin{figure}[htb]
+%        \centering
+%        \includegraphics[width=0.4\textwidth]{../figures/BasicGraph_GraphExample}
+%        \includegraphics[width=0.4\textwidth]{../figures/BasicGraph_AdjacencyListRepresentation}
+%        \caption{邻接表}
+%        \label{fg:adjacencyList}
+%    \end{figure}
 \subsection{包表示法}
 \emph{包表示法}是王教授等人在\emph{G-Hash}\cite{ghash}中提出的一种方法。这种方法的主要思想是将图中的各个节点特征提取出来形成一个列表，然后将这些特征就作为每个节点的标识。这样整幅图就变成了一个字符串的包，也就是一组字符串。通常，我们用这个节点的标号和其邻接节点的不同标号数目为特征。例\ref{exmp:bag1}所示就是一个常用的包表示方法
 \begin{exmp}
@@ -100,7 +105,7 @@
 \end{exmp}
 
 
-\begin{minipage}{\textwidth}
+\begin{table}
     \centering
     \begin{tabular}{c|c|c|c|c|c}
         Nodes & Label & \#A & \#B & \#C & \#D \\ \hline
@@ -113,7 +118,7 @@
     \end{tabular}
     \tabcaption{图\ref{fg:label}的包表示}
     \label{tb:bagr1}
-\end{minipage}
+\end{table}
     
 \section{图查询类型}
 根据图之间的包含关系，可将图查询分为子图查询和超图查询。根据图查询的精确程度，可以将其分为精确查询和相似查询。
@@ -123,22 +128,26 @@
 \begin{defn}[超图查询\cite{ssosc}]
 超图查询的问题为:对于给定的一个查询图，返回图数据库中所有查询图的子图。给定一个图数据库$GD$和一个查询图$q$，超图查询的目的是找出在$GD$中所有以$q$为超图的图的集合，最后返回该子图集合$Q$。$Q={g|g\in GD\wedge q\supseteq g}$。    
 \end{defn}
-\begin{minipage}{\textwidth}
+
+图\ref{fg:subsup}就是同一个查询$q$在同一数据库中子图查询和超图查询的不同结果。
+
+\begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{Database.eps}
     \figcaption{子图查询与超图查询}
     \label{fg:subsup}
-\end{minipage}
-图\ref{fg:subsup}就是同一个查询$q$在同一数据库中子图查询和超图查询的不同结果。
+\end{figure}
 
+\begin{defn}[精确查询]
+图精确查询的问题是这样定义的：对于给定数据库$G={g_1 ,g_2 ,...,g_n }$,查询图$q$,返回$G$中与$q$具有子图同构的图集合。具体可以分为子图查询和超图查询。
+\end{defn}
+\begin{defn}[近似查询]
+图近似查询，又称相似性搜索，是这样定义的：对于给定数据库$G={g_1 ,g_2 ,...,g_n }$,查询图$q$,返回$G$中与$q$距离小于预设阀值的图集合。
+\end{defn}
 
+因此，近似查询中相似性度量方法和近似阀值决定了结果集的大小。阀值越大，候选集越多；阀值越小，候选集越少。当阀值为零是，其结果应该与精确查询一致。
 
-
-
-
-
-
-
+常见的相似性度量方法有两种，一种方法是\emph{编辑距离(edit distance)}.\emph{编辑距离}就是我们将图$G$通过一系列操作(如增删点边，重新标号等)变换为另一个图$G^{'}$所需的操作数。我们可以通过给不同操作分配不同的权值，然后计算权值和作为距离，这样可以让距离更为符合我们实际需求。虽然编辑距离是一种非常直观的图相似性测度方法，但是我们很难计算(实际上，这是个NP-hard问题)。还有一种方法是\emph{最大公共子图(maximal common subgraph)}\cite{mcs}，这里就不详细说明了。
 
 \ifx\allfiles\undefined
 %\renewcommand\refname{参考文献}
