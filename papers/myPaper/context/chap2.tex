@@ -1,8 +1,8 @@
 \ifx\allfiles\undefined
 \def\pictures{}
 \documentclass{XDBAthesis}
-
-\graphicspath{{../figures/}}
+\usepackage{subfigure}
+\graphicspath{{../figures/}{../omnigraffle/}}
 \begin{document}
 \else
 \fi
@@ -32,7 +32,7 @@
     如果一幅图$G=(V,E,\Sigma,\lambda)$和另一幅图$G'=(V',E',\Sigma',\lambda')$有1-1映射的关系$f:V\rightarrow V'$，那么图$G$就是$G'$的\emph{子图(subgraph)}，用$G\in G' $表示。$f$可以有这么几种
 \begin{itemize}
     \item 对于所有$v\in V,\lambda(v)=\lambda '(f(v))$
-    \item 对于所有$(u,v)\in E,(f(u),f(v))\in E'$
+    \item 对于所有$(u,v)\in E,(f(u),f(v))\in E$
     \item 对于所有$(u,v)\in E,\lambda(u,v)=\lambda '(f(u),f(v)) $
 \end{itemize}
 \end{defn}
@@ -50,6 +50,27 @@
 \begin{defn}[路径]
 在图$G(V,E)$中，若从顶点$v_i$出发，沿着一些边经过一些顶点$v_{p1},v_{p2},...,v_{pm}$，到达顶点$v_j $,则称顶点序列$(v_{i},v_{p1},v_{p2},...,v_{pm},v_{j})$为从顶点$v_i $到$v_j $的一条\emph{路径(path)}。如在图\ref{fg:label}中，$(v_{1},v_{2},v_{5})$就是一条$v_1 $到$v_5 $的路径。  
 \end{defn}
+\begin{defn}[图的同构]
+给定图$g$和图$g'$,若$g'$满足$g'\equiv_{iso}g$,则称$g$与$g'$是\emph{同构图}。$g'\equiv_{iso}g$同构，当且仅当存在一个双射函数$f:V(g)\leftrightarrow V(g')$，其满足下列条件:
+\begin{itemize}
+    \item 对于所有$v\in V,\lambda(v)=\lambda '(f(v))$
+    \item 对于所有$u,v\in V,(u,v)\in E\Leftrightarrow (f(u),f(v))\in E$
+    \item 对于所有$(u,v)\in E,\lambda(u,v)=\lambda '(f(u),f(v)) $
+\end{itemize}  
+\end{defn}
+如图\ref{fg:iso}，图$G_1$和图$G_2$就是一组同构图，顶点标号$A\leftrightarrow X,B\leftrightarrow Y,C\leftrightarrow Z$,$G_1$中的边与$G_2$的边也形成双射关系
+\begin{figure}[htb]
+    \centering
+    \subfigure[$G_1$]{
+        \input{../figures/fiso}
+    }
+    \subfigure[$G_2$]{
+        \input{../figures/fiso2}
+    }
+    \caption{图的同构}
+    \label{fg:iso}
+\end{figure}
+
 \section{图存储表示方式}
 图存储表示方法有很多种，常用的有2种：\emph{邻接矩阵(Adjacency Matrix)}和\emph{邻接表(Adjacency List)}。本节还将介绍一种新颖的图表示方法\emph{简化包表示(Reduced Bag Representation)}\cite{ghash}。
 \subsection{邻接矩阵}
@@ -64,6 +85,13 @@
 \end{equation}
 \subsection{邻接表}
     \emph{邻接表}就是将同一个顶点发出的边连接在同一个称为边链表的单链表中。边链表的每个节点代表一条边，称为边节点。每个边节点有两个域：该边终点的序号以及下一个边节点的指针。
+    \begin{figure}[htb]
+        \centering
+        \includegraphics[width=0.4\textwidth]{../figures/BasicGraph_GraphExample}
+        \includegraphics[width=0.4\textwidth]{../figures/BasicGraph_AdjacencyListRepresentation}
+        \caption{邻接表}
+        \label{fg:adjacencyList}
+    \end{figure}
 \subsection{包表示法}
 \emph{包表示法}是王教授等人在\emph{G-Hash}\cite{ghash}中提出的一种方法。这种方法的主要思想是将图中的各个节点特征提取出来形成一个列表，然后将这些特征就作为每个节点的标识。这样整幅图就变成了一个字符串的包，也就是一组字符串。通常，我们用这个节点的标号和其邻接节点的不同标号数目为特征。例\ref{exmp:bag1}所示就是一个常用的包表示方法
 \begin{exmp}
@@ -92,6 +120,16 @@
 \begin{defn}[子图查询\cite{FSD}]
 子图查询的问题为:对于给定的一个查询图，返回图数据库中所有查询图的超图。给定一个图数据库$GD$和一个查询图$q$，子图查询的目的是找出在$GD$中所有包含$q$或者$q$的同构的图的集合，最后返回该超图集合$Q$。$Q={g|g\in GD\wedge q\subseteq g}$。
 \end{defn}
+\begin{defn}[超图查询\cite{ssosc}]
+超图查询的问题为:对于给定的一个查询图，返回图数据库中所有查询图的子图。给定一个图数据库$GD$和一个查询图$q$，超图查询的目的是找出在$GD$中所有以$q$为超图的图的集合，最后返回该子图集合$Q$。$Q={g|g\in GD\wedge q\supseteq g}$。    
+\end{defn}
+\begin{minipage}{\textwidth}
+    \centering
+    \includegraphics[width=0.75\textwidth]{Database.eps}
+    \figcaption{子图查询与超图查询}
+    \label{fg:subsup}
+\end{minipage}
+图\ref{fg:subsup}就是同一个查询$q$在同一数据库中子图查询和超图查询的不同结果。
 
 
 

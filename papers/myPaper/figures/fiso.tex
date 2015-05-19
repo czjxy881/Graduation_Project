@@ -1,0 +1,21 @@
+\ifx\pictures\undefined
+\documentclass{article}
+\usepackage{ctex}
+\usepackage{tikz}
+\begin{document}
+\else
+\fi
+\ifx\hasdraw\undefined
+\tikzstyle{vertex}=[circle,draw=black!25,minimum size=20pt,inner sep=0pt]
+\tikzstyle{edge} = [draw,thick,-]
+\def\hasdraw{}
+\fi
+\begin{tikzpicture}[scale=0.5, auto,swap]
+    \foreach \pos/\labels/\name/\where in {{(3,6)/1/A/right}, {(0,3.5)/2/B/above}, {(1,0)/3/C/left},{(5,0)/4/A/right}, {(6,3.5)/5/B/above}}
+        \node[vertex] (\labels) at \pos [label=\where:$v_{\labels}$]{$\name$};
+    \foreach \source/ \dest  in {1/2,2/3,3/4,4/5,5/1}
+            \path[edge] (\source) --  (\dest);
+\end{tikzpicture}
+\ifx\pictures\undefined
+\end{document}
+\fi
