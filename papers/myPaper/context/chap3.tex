@@ -9,7 +9,7 @@
 \section{图精确查询算法}
 本节将详细介绍子图查询中的\emph{GraphGrep}算法\cite{graphgrep}和\emph{gIndex}算法\cite{gIndex}。
 \subsection{GraphGrep算法}
-2002年ShaSha教授等人提出了\emph{GraphGrep}算法。GraphGrep算法是基于特征索引方法中的第一个经典算法，它采取典型的“过滤-验证”框架，GraphGrep算法中只讨论过滤阶段。由于基于结构的算法中对图的顺序扫描代价太高，GraphGrep提出基于路径的过滤方法，来减少候选集大小。
+2002年ShaSha教授等人提出了\emph{GraphGrep}算法\cite{graphgrep} 。GraphGrep算法是基于特征索引方法中的第一个经典算法，它采取典型的“过滤-验证”框架，GraphGrep算法中只讨论过滤阶段。由于基于结构的算法中对图的顺序扫描代价太高，GraphGrep提出基于路径的过滤方法，来减少候选集大小。
 
 其算法的主要流程是这样的:
 \begin{enumerate}
@@ -41,9 +41,11 @@
     \todo{详细合成过程}
 \end{enumerate}
 
+由于GraphGrep算法是基于路径的，编写十分简单，但是路径数目过多，造成索引集很大，建立十分费时，子图查询过程中也有大量运算量，因此效果有限。
 
 
-
+\subsection{gIndex算法}
+2004年，Yan教授等人提出了\emph{gIndex}算法\cite{gIndex}。gIndex算法是以频繁子图结构作为索引特征的子图查询算法。
 
 
 \ifx\allfiles\undefined

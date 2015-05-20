@@ -1,16 +1,8 @@
-%% Bachelor Thesis Template of Xidian Uniersity
-%%   for using XDBAthesis package with LaTeX
-%%
-%% Created by Xue-Jilong(xuejilong@gmail.com)
-%%
-%% template.tex v0.1, 2011/03/21
-
-
-\documentclass[xetex]{XDBAthesis}
-
-
+\documentclass{XDBAthesis}
 % 图形文件的搜索路径
-\graphicspath{{chapter-utf8/}{figures/}}
+\def\allfiles{}
+\def\pictures{}
+\graphicspath{{../figures/}{../omnigraffle/}}
 
 \begin{document}
 %%----------------- 封面部分 ----------------- %%
@@ -29,10 +21,18 @@
 %%----------------- 正文部分 ----------------- %%
     \mainmatter
     \pagestyle{content}
-    \include{context/chap1}
+    \include{chap1}
+    \include{chap2}
+    \include{chap3}
+    \include{chap4}
+%    \appendix
+%    \include{chapter/chap-req}
+
 %%----------------- 附件部分 ----------------- %%
     \backmatter
+%    \include{chapter/thanks}
+%    \include{chapter/bib}
     
 \bibliographystyle{unsrt}
-\bibliography{context/main}
+\bibliography{main}
 \end{document}
