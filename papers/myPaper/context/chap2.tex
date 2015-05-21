@@ -14,20 +14,20 @@
 \end{defn}
 如图\ref{fg:label}就是一个包含六个节点的标号图。需要注意的是标号与标识的区别，标号是图的固有属性，标识只是为了方便使用人为添加的记号。在图\ref{fg:label}中，$v_i $就是标识，而$A,B,C,D$则是标号。
 
-\begin{minipage}{\textwidth}
-    \begin{minipage}{0.4\textwidth}
+\begin{figure}[htp]
+    \begin{minipage}{0.5\textwidth}
         \centering
         \input{../figures/f2.1}
         \figcaption{标号图}
         \label{fg:label}
     \end{minipage}%
-    \begin{minipage}{0.6\textwidth}
+    \begin{minipage}{0.5\textwidth}
         \centering
         \input{../figures/f2.1b}
         \figcaption{图\ref{fg:label}的子图}
         \label{fg:sub}
     \end{minipage}\hfill
-\end{minipage}
+\end{figure}
 \begin{defn}[子图]
     如果一幅图$G=(V,E,\Sigma,\lambda)$和另一幅图$G'=(V',E',\Sigma',\lambda')$有1-1映射的关系$f:V\rightarrow V'$，那么图$G$就是$G'$的\emph{子图(subgraph)}，用$G\in G' $表示。$f$可以有这么几种
 \begin{itemize}
