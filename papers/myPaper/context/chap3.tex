@@ -1,6 +1,7 @@
 \ifx\allfiles\undefined
 \documentclass{XDBAthesis}
 \begin{document}
+\def\pictures{}
 \else
 \fi
 \chapter{经典图查询算法}
@@ -45,8 +46,80 @@
 
 
 \subsection{gIndex算法}
-2004年，Yan教授等人提出了\emph{gIndex}算法\cite{gIndex}。gIndex算法是以频繁子图结构作为索引特征的子图查询算法。
+2004年，Yan教授等人提出了\emph{gIndex}算法\cite{gIndex}。gIndex算法是以频繁子图结构作为索引特征的子图查询算法。 它采用\emph{动态支持度(size-increasing support)}和\emph{区分度片段}两种方法来优化算法，获得性能更好的索引。
 
+其算法主要流程如此:
+\todo{补充gIndex详细流程}
+\begin{enumerate}
+    \item 
+\end{enumerate}
+
+
+\section{图相似性搜索}
+本节将着重介绍两种相似性搜索方法，分别是\emph{G-Hash}算法\cite{ghash}和\emph{C-tree}算法\cite{C-Tree}。
+\subsection{G-Hash算法}
+\emph{G-Hash}算法是Wang教授等人于2009年提出的一种图相似性搜索方法。相比较其他近似搜索方法，这种方法更加稳定高效。G-Hash开创性地采用了\emph{简化包表示(Reduced Bag Represent)}来表示每个节点特征，并表示成字符串，Hash存储作为索引。并利用\emph{小波匹配核函数(Wavelet Graph matching kernels)}来计算节点间的相似度，从而得到和查询图最为相似的K个图。但是G-Hash算法的准确度和速度完全取决于相似度度量函数，因此一个好的相似性度量方法尤为重要。
+
+算法主要流程如下:
+\begin{enumerate}
+    \item 索引构建:将图数据库中每幅图用简化包表示，然后将每个节点特征变为字符串，利用Hash存成索引。如例\ref{ep:ghash_index}所示,就是一个图建成索引过程。需要注意的是在例子中，我们只有三个标号，所以特征矩阵只有四列。但是在实际中当我们选取节点标号数目作为特征时，需要先统计出图数据库中有的所有标号，这样才好做归一化存储。
+    \begin{exmp}
+        图\ref{fg:ghash_index}就是一个G-Hash构建索引的实例。图\ref{fg:ghash_index}(a)是需要存储的一幅图。我们选取节点标签和邻接节点各个标号的个数作为度量特征，所以一共有四个特征。首先统计各个节点周围各个标号的数目，结果如图\ref{fg:ghash_index}(b)所示 。然后用小波函数提取出实际特征值。举例而言，对于$v_{3}$在用$h=0$的小波函数提取后，局部特征是$\lbrack B,2,0,1\rbrack $。将这些表示特征值的字符串利用Hash找到对应位置，然后将对应节点标号填到此位置，最后生成的哈希表如图\ref{fg:ghash_index}(c)所示。而整个数据库生成的哈希表就如图\ref{fg:ghash_index}(d)所示。
+        \label{ep:ghash_index}
+            
+        \begin{figure}[htp]
+            \subfigure[一个简单图P]{   
+                \begin{minipage}{0.5\textwidth}
+                    \centering
+                    \input{../figures/f3.1}
+                \end{minipage}
+            }
+            \subfigure[节点特征矩阵]{
+                \begin{minipage}{0.5\textwidth}
+                \centering
+                \begin{tabular}{c|c|c|c|c}
+                    Nodes & Label & \#A & \#B & \#C \\ \hline
+                    $v_{1}$ & A & 1 & 1 & 0 \\ \hline
+                    $v_{2}$ & A & 1 & 1 & 1 \\ \hline
+                    $v_{3}$ & B & 2 & 0 & 1 \\ \hline
+                    $v_{4}$ & C & 0 & 1 & 0 \\ \hline
+                    $v_{5}$ & C & 1 & 0 & 0 \\ \hline
+                \end{tabular}
+            \end{minipage}
+            }
+            \subfigure[图P对应的哈希表]{
+            \begin{minipage}{0.5\textwidth}
+                \centering
+                \begin{tabular}{c|c}
+                    哈希键 & 哈希值  \\ \hline
+                    A,1,1,0 & $v_{1}$ \\ \hline
+                    A,1,1,1 & $v_{2}$ \\ \hline
+                    B,2,0,1 & $v_{3}$ \\ \hline
+                    C,0,1,0 & $v_{4}$ \\ \hline
+                    C,1,0,0 & $v_{5}$ \\ \hline
+                \end{tabular}
+            \end{minipage}
+            }
+            \subfigure[图数据库哈希表示例]{
+            \begin{minipage}{0.5\textwidth}
+                \centering
+                \begin{tabular}{c|c|c|c}
+                    哈希键 & $G_1$ & $G_2$ & $G_3$  \\ \hline
+                    A,1,1,0 & 1 & 4 & 0 \\ \hline
+                    A,1,1,1 & 0 & 1 & 0 \\ \hline
+                    B,2,0,1 & 2 & 0 & 6 \\ \hline
+                    C,0,1,0 & 0 & 5 & 1 \\ \hline
+                    C,1,0,0 & 3 & 0 & 1 \\ \hline
+                \end{tabular}
+            \end{minipage}
+            }
+            \caption{一幅简单示例图}
+            \label{fg:ghash_index}
+        \end{figure}     
+    \end{exmp}
+
+    \item 
+\end{enumerate}
 
 \ifx\allfiles\undefined
 \bibliographystyle{unsrt}
