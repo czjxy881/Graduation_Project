@@ -91,7 +91,7 @@
             \begin{minipage}{0.5\textwidth}
                 \centering
                 \begin{tabular}{c|c}
-                    哈希键 & 哈希值  \\ \hline
+                    索引键 & 哈希值  \\ \hline
                     A,1,1,0 & $v_{1}$ \\ \hline
                     A,1,1,1 & $v_{2}$ \\ \hline
                     B,2,0,1 & $v_{3}$ \\ \hline
@@ -104,7 +104,7 @@
             \begin{minipage}{0.5\textwidth}
                 \centering
                 \begin{tabular}{c|c|c|c}
-                    哈希键 & $G_1$ & $G_2$ & $G_3$  \\ \hline
+                    索引键 & $G_1$ & $G_2$ & $G_3$  \\ \hline
                     A,1,1,0 & 1 & 4 & 0 \\ \hline
                     A,1,1,1 & 0 & 1 & 0 \\ \hline
                     B,2,0,1 & 2 & 0 & 6 \\ \hline
@@ -118,8 +118,17 @@
         \end{figure}     
     \end{exmp}
 
-    \item 
+    \item 查询过程:将查询图也同数据库中图一样用简化包表示。然后计算其中每个节点字符串和图数据库中每个字符串的相似性，乘以每个图中此字符串出现的次数，得到这个节点和每幅图的相似度，求和即可得到总的相似度。排序得到最相近的K个。    
 \end{enumerate}
+\todo{添加G-Hash+中那副图}
+图 是G—Hash查询的一个完整例子。从XXXX
+
+
+
+此方法还支持动态增删图数据，如例\ref{ep:ghash_index}因为其用字符串作为索引键，所以
+如果增删的图不改变原有的特征情况，在例\ref{ep:ghash_index}中就是标号的个数，那么在添加时需要添加数据库中的一列，在删除时也只需要删除一列即可。不需重建整个索引。
+\subsection{Closure tree算法}
+\todo{补充C-tree}
 
 \ifx\allfiles\undefined
 \bibliographystyle{unsrt}
