@@ -172,3 +172,5 @@ AIDS_data_input
 *.sp
 
 *.dvi
+
+*.gz

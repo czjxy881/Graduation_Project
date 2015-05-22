@@ -1,6 +1,8 @@
 \ifx\allfiles\undefined
 \documentclass{XDBAthesis}
 \def\pictures{}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 \begin{document}
 \else
 \fi
@@ -18,8 +20,9 @@
 \section{基于路径的查询算法}
 本方法同\emph{GraphGrep}算法\cite{graphgrep}，都是基于路径的精确子图查询算法。算法基本流程如下：(1)遍历图数据库中图的路径，(2)利用双哈希构建索引，(3)遍历查询路径，(4)利用基本索引特征做先验剪枝，(5)路径合成进一步筛选候选集，(6)子图同构确定最终结果。下面我们将分小节详细说明这些步骤。
 \subsection{数据库路径遍历}
-对于每幅图
+首先，对于每个数据库我们设定一个路径长度的上限$l_p $，$l_p $越大意味着可记录的路径越长，索引集合也会相应增加。随后对于数据库中的每幅图，我们用深度优先搜索遍历每个节点，遍历最大深度为$l_p $，并记录遍历过程中经过的每一条路径，存成一个列表，用于下一步构建索引。
 \subsection{双哈希索引构建}
+
 如算法xxx所示，效果table
 \subsection{查询图路径遍历}
 \subsection{先验剪枝}
@@ -27,6 +30,7 @@
 \subsection{路径合成}
 \subsection{子图同构}
 \subsubsection{UllMANN算法}
+
 
 \section{实验结果与分析}
 \subsection{实验环境}
