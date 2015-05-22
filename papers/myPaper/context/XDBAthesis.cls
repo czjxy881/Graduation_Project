@@ -78,6 +78,7 @@
 \RequirePackage{tikz,subfigure}
 %% drawing package
 \RequirePackage{todonotes}
+\RequirePackage{algorithm, algorithmicx, algpseudocode}
 
 \ifpdf   % We're running pdfTeX in PDF mode
     \RequirePackage[pdftex]{hyperref}
