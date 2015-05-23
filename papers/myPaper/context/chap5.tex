@@ -12,9 +12,74 @@
 
 传统的图相似性算法虽然运行效率已较为理想，但是编码上过于复杂，也无法做到对所有图数据库良好适配。所以本章我们提出了一种性能上不输于传统算法，但是实现更为简单，并且无需复杂设计即可适用于大量图数据库的基于节点距离的通用型算法。本章将首先详细介绍下一些相关概念，我们算法的具体思路，然后给出详细的代码设计方案，最后给出对于真实数据的实验结果与分析。
 \section{相关概念}
+本节主要介绍下下文介绍算法时会用到的一些概念，包括小波图匹配核函数，图相似度定义，节点距离。
+\subsection{小波图匹配核函数}
+\emph{小波图匹配核函数(Wavelet Graph matching kernel)}\cite{ghash}是Wang等人在G-Hash算法中提出的，用于度量图相似度的一个核心函数。其思想是先通过压缩每个节点周围邻接节点的属性信息，然后应用非递归线性核去计算图之间的相似度。这个方法包含两个重要的概念：\emph{h-hop邻域}和\emph{离散小波变换}。用$N_h (v)$标记一个节点$v$的\emph{h跳邻域}，代表一个距离节点$v$最短距离是$h$跳(跳过$h$个节点,也就是$h+1$的曼哈顿距离)的节点集合。\emph{离散小波变换}涉及到一个小波函数的定义，见下文公式\ref{eq:wavelet} ,也用到了$h$跳邻域。
+\begin{equation}
+    \psi_{j,k}=\frac{1}{h+1}\int_{j/(k+1)}^{(j+1)/(k+1)}\varphi(x)dx
+    \label{eq:wavelet}
+\end{equation}
+$\varphi(x)$代表\emph{Haar}或者\emph{Mexican Hat}小波函数，$h$是在将$\varphi(x)$在$[0,1)$区间上分成$h+1$个间隔后的第$h$个间隔，$j\in[0,h]$。
+基于以上两个定义，我们现在可以将小波分析用在图上了。我们用小波函数来计算每个节点的局部拓扑和。公式\eqref{eq:wm}展示了一个小波度量方法，记做$\Gamma_h (v)$，以图$G$中的一个节点$v$为例。
+\begin{equation}
+    \Gamma_h (v)=C_{h,v}\times\sum_{j=0}^k \psi_{j,k}\times\bar{f}_j (v)
+    \label{eq:wm}
+\end{equation}
+其中,$C_{h,v}$是一个归一化因子
+\begin{equation}
+    C_{h,v}=(\sum_{j=0}^h \frac{\psi_{j,h}^2 }{|N_h (v)|})^{-1/2},
+\end{equation}
+$\bar{f}_{j}(v)$是离节点$v$最远距离为$j$的原子特征向量的平均值
+\begin{equation}
+    \bar{f}_{j}(v)=\frac{1}{|N_{j}(v)|}\sum_{u\in N_{j}(v)}f_u
+\end{equation}
+$f_u $表示节点$v$的特征向量值。这样的特征向量值只会是下面四种中的一种：定类，定序，定距，定比。对于定比和定距特征值，直接在上述的小波分析时代入其值即可得到局部特征值。对于定类和定序节点特征，我们首先建立一个直方图，然后用小波分析提取出特征值。在节点$v$分析完成后，我们可以得到一个节点列表$\Gamma^h (v)=\{\Gamma_{1}(v),\Gamma_{2}(v),...,\Gamma_{h}(v)\}$,我们称其为小波测度矩阵。用此方法我们可以将一个图转换为一个节点向量集合。因为小波变换有明确的正负区域，所以这些小波压缩特征可以表示出局部的邻接节点和距离较远的邻接节点的差异。因此，通过小波变换，一幅图的结构化信息可以压缩成节点特征。从而我们可以忽略拓扑结构来专心于节点匹配。核函数就是建立在这些集合上的，我们以图$G$和$G'$为例，图匹配核函数是这样的
+\begin{gather}
+    k_{m}(G,G')=\sum_{(u,v)\in V(G)\times V(G')}K(\Gamma^{h}(u),\Gamma^h (v) ), \\
+    K(X,Y)=e^{\frac{-\|X-Y\|_{2}^{2}}{2}}.
+\end{gather}
+WA方法是一种很好的利用核函数进行图相似度定义的方法。但是这个方法有一个问题，就是小波匹配核的总时间复杂度是$O(m^2 )$，核矩阵的是$O(n^2 \times m^2 )$，$n$是数据库图个数，$m$是平均节点个数。这意味着，当数据库尺寸增加时，计算时间将大幅度增加。
 
+\subsection{图相似性定义}
+图相似性有很多种定义方式有很多，第\ref{chap:introduce}章\todo{补充编号}中介绍的\emph{图编辑距离}和\emph{最大公共子图}就是两种常用的图相似度度量方法。
 
+本方法中，我们采用和G-Hash相似的相似性度量方法，即利用核函数计算两图相似性。公式\ref{eq:ghashDistance}就是两图相似度距离的定义。
+\begin{equation}
+\begin{split}
+    &d(G,G')=\sqrt{\|\phi(G)-\phi(G')\|_{2}^{2}}\\
+              &=\sqrt{\langle\phi(G)-\phi(G'),\phi(G)-\phi(G')\rangle}\\
+              &=\sqrt{\langle\phi(G),\phi(G)\rangle+\langle\phi(G'),\phi(G')\rangle-2\langle\phi(G),\phi(G')\rangle}\\
+              &=\sqrt{k_{m}(G,G)+k_{m}(G',G')-2k_{m}(G,G')}
+\end{split}
+\label{eq:ghashDistance}
+\end{equation}
 
+公式中$k_{m}(G,G)$代表图$G$和其本身的核函数值，$k_{m}(G',G')$是图$G'$及其本身的值，$k_{m}(G,G')$就是图$G$和$G'$的。
+
+\begin{equation}
+k_{m}(G,G')=\sum_{v\in G',u\in simi(v)}K(\Gamma^{h}(u),\Gamma^{h}(v))
+\end{equation}
+
+$simi(v)$是一个包含着图$G$和节点$v$哈希到同一个位置的节点集合。我们用以下的解码方式来获取包含这些节点的图号和节点号。
+
+显然，仅利用相似点对而非所有点对来计算两图相似度可以节约很多运算时间。因此为了增加准确度，相似的节点应该被哈希到相邻的位置。在图很大(如大于40)时，我们也要计算相邻位置的节点。
+
+因此在核函数计算时我们只考虑相似点对，在使用RBF核的情况下，$K(\Gamma^{h}(u),\Gamma^{h}(v))\approx1$，所以公式(2)可以写成
+\begin{equation}
+    K(G,G')\approx\sum_{v\in G',u\in simi(v)}1=\sum_{v\in G'}|simi(v)| 
+\end{equation}
+
+$|simi(v)|$是在$simi(v)$中的节点数目。这意味着我们只需要统计图$G$中和查询$G'$相似的点个数，其和就是我们要求的核。同理，我们可以这样计算每个图与其自己的核。显然，每个图与自己的核就是节点数目。
+
+所以公式\ref{eq:ghashDistance}最终变成公式\ref{eq:ghashfinal},其中$|V_{G}|$代表图$G$的节点数。
+\begin{equation}
+    d(G,G')=\sqrt{|V_{G}|+|V_{G'}| -2\sum_{v\in G'}|simi(v)| }
+    \label{eq:ghashfinal}
+\end{equation}
+
+%在完成上述操作后，我们会得到一个相似度列表，其每一个值都对应这一个数据库中的图与查询图的相似度，通过对这个列表排序，我们就可以得到对于给定的查询的$K-NNs$。
+\subsection{节点距离}
+在上一节我们介绍了核函数下图相似性的定义。其中有参数$simi(v)$代表与节点$v$相似的节点，但是何为相似，这个很难定义。G-Hash算法在这边根据不同图数据库构建了不同类型的哈希，来保证相似的节点都在相邻位置。而这在实际应用中很是困难。因此我们提出了\emph{节点距离}这一概念。
 \ifx\allfiles\undefined
 %\bibliographystyle{unsrt}
 \bibliography{main}
