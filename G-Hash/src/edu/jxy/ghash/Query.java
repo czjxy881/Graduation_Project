@@ -17,9 +17,9 @@ public class Query {
 			if (Math.abs(ResultList[o1] - ResultList[o2]) < 10e-5) {
 				return 0;
 			} else if (ResultList[o1] < ResultList[o2]) {
-				return 1;
-			} else {
 				return -1;
+			} else {
+				return 1;
 			}
 		}
 
@@ -69,6 +69,9 @@ public class Query {
 					}
 				}
 			}
+		}
+		for (i = 0; i < graphSize; i++) {
+			ResultList[i] = unifier.getGraphNodeCount(i) - 2 * ResultList[i];
 		}
 	}
 
