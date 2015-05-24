@@ -140,7 +140,7 @@
 
 \renewcommand{\floatpagefraction}{0.80}
 
-\bibliographystyle{plain}
+%\bibliographystyle{plain}
 \newcommand\XDBAspace{\protect\CTEX@spaceChar\protect\CTEX@spaceChar}
 \newcommand\XDBAquad{\protect\CTEX@spaceChar}
 

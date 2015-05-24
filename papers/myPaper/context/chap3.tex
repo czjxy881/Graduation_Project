@@ -1,6 +1,7 @@
 \ifx\allfiles\undefined
 \documentclass{XDBAthesis}
 \begin{document}
+
 \def\pictures{}
 \else
 \fi
@@ -38,22 +39,27 @@
             \item 利用路径个数进行过滤:如果查询图中某一路径个数大于数据库中一图的此路径个数，则此图一定不会包含查询图，可以从候选集中删去。
         \end{enumerate}
     \item 子图查询: 利用标号进行路径合成，从候选集中删去所有未能成功合成的候选图。剩下的就是GraphGrep算法返回的候选集。后续再加以图同构验证即可得到最终子图查询结果。
-    
-    \todo{详细合成过程}
 \end{enumerate}
-
-由于GraphGrep算法是基于路径的，编写十分简单，但是路径数目过多，造成索引集很大，建立十分费时，子图查询过程中也有大量运算量，因此效果有限。
+由于GraphGrep算法是基于路径的，编写十分简单，但是路径数目过多，造成索引集很大，建立十分费时，子图查询过程中也有大量运算量，尤其在内存有限的情况下哈希常发生冲突现象，因此效果有限。
 
 
 \subsection{gIndex算法}
 2004年，Yan教授等人提出了\emph{gIndex}算法\cite{gIndex}。gIndex算法是以频繁子图结构作为索引特征的子图查询算法。 它采用\emph{动态支持度(size-increasing support)}和\emph{区分度片段}两种方法来优化算法，获得性能更好的索引。
 
 其算法主要流程如此:
-\todo{补充gIndex详细流程}
 \begin{enumerate}
-    \item 
+    \item 利用数据挖掘中的相关算法挖掘出频繁子结构，并用最小支持阀值$min\_sup$筛选出频繁子结构作为特征片段
+    \item 利用DFS序列化编码将特征片段序列化，然后存成一颗前缀树称为$gIndex$树作为索引，如图\ref{fg:gIndex}所示。并记录每个图包含哪些特征片段。
+    \item 对于给定查询图$q$，找出其所有特征片段，然后对包含此片段的图取交集即为最终结果。
 \end{enumerate}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth ]{../figures/gIndex}
+    \caption{gIndex树}
+    \label{fg:gIndex}
+\end{figure}
 
+gIndex算法是首个以频繁子结构为索引特征的经典算法，其利用了图的结构化信息，使得效率大大提高。但是由于记录的为结构化的子图信息，对空间要求较大，同时特征片段的筛选使得其只携带了自身的结构特点，丢失掉的结构信息也会对算法效率造成一定影响。
 
 \section{图相似性搜索}
 本节将着重介绍两种相似性搜索方法，分别是\emph{G-Hash}算法\cite{ghash}和\emph{C-tree}算法\cite{C-Tree}。
@@ -63,11 +69,23 @@
 算法主要流程如下:
 \begin{enumerate}
     \item 索引构建:将图数据库中每幅图用简化包表示，然后将每个节点特征变为字符串，利用Hash存成索引。如例\ref{ep:ghash_index}所示,就是一个图建成索引过程。需要注意的是在例子中，我们只有三个标号，所以特征矩阵只有四列。但是在实际中当我们选取节点标号数目作为特征时，需要先统计出图数据库中有的所有标号，这样才好做归一化存储。
-    \begin{exmp}
+    \item 查询过程:将查询图也同数据库中图一样用简化包表示。然后计算其中每个节点字符串和图数据库中每个字符串的相似性，乘以每个图中此字符串出现的次数，得到这个节点和每幅图的相似度，求和即可得到总的相似度。排序得到最相近的K个。    
+\end{enumerate}
+
+如图\ref{fg:gHashExample}，便是G—Hash查询的一个完整例子。
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.7\textwidth ]{../figures/ghashdatabase}
+    \includegraphics[width=\textwidth ]{../figures/gHash+}
+    \caption{G-Hash查询示例:(a)图数据库{S,T}和查询Q,(b)查询Q的简化包表示,(c)与哈希存储的图数据库匹对,(d)计算匹对结果,(e)排序得出最相似的k个图}
+    \label{fg:gHashExample}
+\end{figure}
+\begin{exmp}
         图\ref{fg:ghash_index}就是一个G-Hash构建索引的实例。图\ref{fg:ghash_index}(a)是需要存储的一幅图。我们选取节点标签和邻接节点各个标号的个数作为度量特征，所以一共有四个特征。首先统计各个节点周围各个标号的数目，结果如图\ref{fg:ghash_index}(b)所示 。然后用小波函数提取出实际特征值。举例而言，对于$v_{3}$在用$h=0$的小波函数提取后，局部特征是$\lbrack B,2,0,1\rbrack $。将这些表示特征值的字符串利用Hash找到对应位置，然后将对应节点标号填到此位置，最后生成的哈希表如图\ref{fg:ghash_index}(c)所示。而整个数据库生成的哈希表就如图\ref{fg:ghash_index}(d)所示。
         \label{ep:ghash_index}
-            
-        \begin{figure}[htp]
+        
+    \end{exmp}
+    \begin{figure}[htb]
             \subfigure[一个简单图P]{   
                 \begin{minipage}{0.5\textwidth}
                     \centering
@@ -116,19 +134,14 @@
             \caption{一幅简单示例图}
             \label{fg:ghash_index}
         \end{figure}     
-    \end{exmp}
-
-    \item 查询过程:将查询图也同数据库中图一样用简化包表示。然后计算其中每个节点字符串和图数据库中每个字符串的相似性，乘以每个图中此字符串出现的次数，得到这个节点和每幅图的相似度，求和即可得到总的相似度。排序得到最相近的K个。    
-\end{enumerate}
-\todo{添加G-Hash+中那副图}
-图 是G—Hash查询的一个完整例子。从XXXX
 
 
+G-Hash算法作为经典的相似性搜索算法，其提出利用核函数计算相似度，成功将结构化特征用数学方法转为数值特征，使得搜索效率有明显提升。但是由于其对哈希函数要求严格，造成编码复杂，而核函数的计算也很耗时，使得此方法实际运用并不多。
 
-此方法还支持动态增删图数据，如例\ref{ep:ghash_index}因为其用字符串作为索引键，所以
-如果增删的图不改变原有的特征情况，在例\ref{ep:ghash_index}中就是标号的个数，那么在添加时需要添加数据库中的一列，在删除时也只需要删除一列即可。不需重建整个索引。
 \subsection{Closure tree算法}
-\todo{补充C-tree}
+2006年He和Singh提出了一种基于树结构建立索引的查询算法C-Tree\cite{C-Tree},C-Tree利用启发式图映射方法来判断编辑距离，进而得到近似图。C-Tree具有以下几个特点\cite{DTS}:(1)每个节点都是其孩子的闭包图，只有作为叶子节点的孩子节点是数据库中的图数据;(2)除了根节点每个节点至少包含$m$个孩子$m\geq 2$;(3)每个节点最多不超过$M$个孩子，$(M+1)/2\geq m$。
+
+C-Tree提出了一种利用图闭包计算编辑距离的方法，提出了邻接子树和邻接子图在相似性搜索中的应用，是图相似性搜索领域一个重要基础算法。但是基于图闭包的计算还是略显复杂，仍须研究。
 
 \ifx\allfiles\undefined
 \bibliographystyle{unsrt}
