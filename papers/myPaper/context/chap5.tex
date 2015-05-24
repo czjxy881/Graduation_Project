@@ -125,7 +125,16 @@ $|simi(v)|$是在$simi(v)$中的节点数目。这意味着我们只需要数据
 \subsection{实验环境}
 本文提出算法的实验环境为CPU Intel Core i7,主频为1.7 GHz，内存为8 GB 1600 MHz DDR3，硬盘为128GB SSD，操作系统为Mac OS X Yosemite 10.10.3；所有算法均用Java语言在JDK1.7u71环境编译完成。
 \subsection{实验数据分析}
-实验数据全采用真实数据，为DTP提供的AIDS数据集。可从以下网址得到:\url{https://wiki.nci.nih.gov/display/NCIDTPdata/AIDS+Antiviral+Screen+Data}。我们从其数据库中随机抽取了1000,2000,4000,16000个图作为我们的查询集合。
+实验数据全采用真实数据，为DTP提供的AIDS数据集。可从以下网址得到:\url{https://wiki.nci.nih.gov/display/NCIDTPdata/AIDS+Antiviral+Screen+Data}。我们从其数据库中随机抽取了1000,2000,4000,8000，16000个图作为我们的查询集合。数据集平均每幅图有41条节点，48条边。由于未能联系到原作者，实验中用于对照的G-Hash算法也是我们根据G-Hash论文\cite{ghash}自行仿写的。
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{../figures/THC/G-Hashcomapre}
+    \caption{查询时间对比图}
+    \label{fg:ghashtime}
+\end{figure}
+
+实验结果如图\ref{fg:ghashtime}所示，可以看出节点相似度算法与G-Hash算法在线查询时间基本一致，说明其性能不输于G-Hash算法，但是编码难度大大降低。由于近似搜索的精度并不好定义，因此我们没有给出精度的对比图。不过由于G-Hash靠哈希函数获得相似节点，具有局限性。而本算法则是完全计算所有节点相似度，显然更加可靠。
+
 \ifx\allfiles\undefined
 %\bibliographystyle{unsrt}
 \bibliography{main}

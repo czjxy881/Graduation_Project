@@ -14,6 +14,7 @@ public class Unifier {
 		}
 		return unifier;
 	}
+
 	private TreeMap<String, Integer> BagMap;
 
 	private int BagNum;
@@ -28,6 +29,15 @@ public class Unifier {
 	private ArrayList<Integer> EveryLabelNum;
 	private ArrayList<Graph> GraphList;
 	private boolean isUpdated;
+	private int AllNodeNum, AllEdgeNum;
+
+	public int getAllNodeNum() {
+		return AllNodeNum;
+	}
+
+	public int getAllEdgeNum() {
+		return AllEdgeNum;
+	}
 
 	private int LabelNum;
 	private HashMap<String, Integer> NodeLabelMap;
@@ -43,6 +53,7 @@ public class Unifier {
 		Bags = new ArrayList<String>();
 		EveryLabelNum = new ArrayList<Integer>();
 		GraphList = new ArrayList<Graph>();
+		AllNodeNum = AllEdgeNum = 0;
 	}
 
 	public void addBag(String bag) {
@@ -51,6 +62,8 @@ public class Unifier {
 
 	public void addGraph(Graph graph) {
 		GraphList.add(graph);
+		AllNodeNum += graph.getNumNode();
+		AllEdgeNum += graph.getNumEdge();
 		isUpdated = false;
 	}
 
@@ -74,7 +87,23 @@ public class Unifier {
 	}
 
 	public double calcSimilarity(String Bag1, String Bag2) {
-		return 1;
+		String[] a = Bag1.split(",");
+		String[] b = Bag2.split(",");
+		double ans = 0;
+		int sum = 0, suma = 1, sumb = 1, aa, bb;
+		int i;
+		if (a[0].equals(b[0])) {
+			ans = 1;
+		}
+		for (i = 1; i < a.length; i++) {
+			aa = Integer.valueOf(a[i]);
+			bb = Integer.valueOf(b[i]);
+			sum += aa * bb;
+			suma += aa * aa;
+			sumb += bb * bb;
+		}
+		ans = 1.0 * sum / (Math.sqrt(suma * sumb));
+		return ans;
 		// FIX:
 	}
 
