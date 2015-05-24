@@ -152,13 +152,20 @@
 \subsection{子图同构}
 子图同构作为算法最后的验证部分，承担着对于整个算法正确性把关的责任，也同样是个需要消耗大量运算量的部分。由于子图同构是个$NP-hard$问题，所以目前仍没有一种快速的解法。我们选用经典算法\emph{ULLMANN}算法\cite{ullmann}来解决这个问题。下面我们将大致介绍下UllMANN算法。
 
-ULLMANN算法是Ullmann教授1976年提出的一种经典图同构算法，其本质是基于一个深度优先搜索树。其算法流程如图\ref{fg:ullmanchart}所示。首先，根据查询图节点的出入度从数据图中找出候选集。随后，再根据每个节点的邻接节点对候选集进行筛选。最后，通过深度优先搜索，一一遍历配对，寻找匹配点。例\ref{exmp:ullmann}就是一个子图同构的完整过程。
-\todo{补充Ullmann图和例子}
-\begin{figure}
-    \caption{Ullmann算法流程图}
-    \label{fg:ullmanchart}
+ULLMANN算法是Ullmann教授1976年提出的一种经典图同构算法，其本质是基于一个深度优先搜索树。其算法流程大致如下。首先，根据查询图节点的出入度从数据图中找出候选集。随后，再根据每个节点的邻接节点对候选集进行筛选。最后，通过深度优先搜索，一一遍历配对，寻找匹配点。例\ref{exmp:ullmann}就是一个子图同构的完整过程。
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth ]{../figures/ulle}
+    \caption{一个例子}
+    \label{fg:ullman}
 \end{figure}
 \begin{exmp}
+    我们以图\ref{fg:ullman}为例说明下Ullmann的判断过程。我们要判断$GA$是否与$GB$同构。
+    \begin{enumerate}
+        \item 首先根据节点出入度找出候选集。显然$degree(u)=degree(v)=2,degree(w)=3,degree(z)=1$,根据匹配节点出入度一定小于适配节点这一特征，我们可以确定$candidates(u)=candidates(v)=\{a,b,e,f,g\},candidates(w)=\{f\},GB$的每个节点都可以作为$z$的候选。
+        \item 然后我们根据邻接节点进行筛选，例如$h$是$z$的候选节点，$z$的邻接节点是$w$，但是$h$没有邻接节点在$w$的候选集中。因此，我们就可以把$h$从$z$的候选集合中删去。这样，我们得到$candidates(u)=candidates(v)=candidates(z)=\{a,e,g\},candidates(w)=\{f\}$
+        \item 最后，我们进行一一匹配过程，这步最简单，但也最耗时。举例而言在本例中就是先看$u$如果和$a$配对，那么$v,z,w$可以正常匹配么，他们之间的边关系还能保持么？显然，本例中不可以。因此得出结论$GA$与$GB$不同构。
+    \end{enumerate}
     \label{exmp:ullmann}    
 \end{exmp}
 
@@ -168,8 +175,6 @@ ULLMANN算法是Ullmann教授1976年提出的一种经典图同构算法，其�
 本文提出算法的实验环境为CPU Intel Core i7,主频为1.7 GHz，内存为8 GB 1600 MHz DDR3，硬盘为128GB SSD，操作系统为Mac OS X Yosemite 10.10.3；所有算法均用C语言在clang 600.0.56环境编译完成。
 \subsection{实验数据分析}
 实验数据全采用真实数据，为DTP提供的AIDS数据集。可从以下网址得到:\url{https://wiki.nci.nih.gov/display/NCIDTPdata/AIDS+Antiviral+Screen+Data}。我们从其数据库中随机抽取了1000,2000,4000,8000,16000个图作为我们的查询集合。数据集平均每幅图有41条节点，48条边。所有实验运行10次取平均值。
-
-实验结果如图\ref{fg:THCBuild},\ref{fg:THCRun}所示，THC为Twice Hash Chain(二次哈希开链法)的缩写。我们测试了不同最大长度$l_p $下两个算法的表现。
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.5\textwidth]{../figures/THC/BuildCompare_4_6_10}%
@@ -177,9 +182,12 @@ ULLMANN算法是Ullmann教授1976年提出的一种经典图同构算法，其�
     \caption{建库时间比较}
     \label{fg:THCBuild}
 \end{figure}
+
+实验结果如图\ref{fg:THCBuild},\ref{fg:THCRun}所示，THC为Twice Hash Chain(二次哈希开链法)的缩写。我们测试了不同最大长度$l_p $下两个算法的表现。
+
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=\textwidth]{../figures/THC/ExceCompare_4_10}
+    \includegraphics[width=0.5\textwidth]{../figures/THC/ExceCompare_4_10}
     \caption{运行时间比较}
     \label{fg:THCRun}
 \end{figure}

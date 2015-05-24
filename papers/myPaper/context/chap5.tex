@@ -14,7 +14,7 @@
 \section{相关概念}
 本节主要介绍下下文介绍算法时会用到的一些概念，包括小波图匹配核函数，G-Hash中的图相似度定义，节点相似度定义三部分。
 \subsection{小波图匹配核函数}
-\emph{小波图匹配核函数(Wavelet Graph matching kernel)}\cite{ghash}是Wang等人在G-Hash算法中提出的，用于度量图相似度的一个核心函数。其思想是先通过压缩每个节点周围邻接节点的属性信息，然后应用非递归线性核去计算图之间的相似度。这个方法包含两个重要的概念：\emph{h-hop邻域}和\emph{离散小波变换}。用$N_h (v)$标记一个节点$v$的\emph{h跳邻域}，代表一个距离节点$v$最短距离是$h$跳(跳过$h$个节点,也就是$h+1$的曼哈顿距离)的节点集合。\emph{离散小波变换}涉及到一个小波函数的定义，见下文公式\ref{eq:wavelet} ,也用到了$h$跳邻域。
+\emph{小波图匹配核函数(Wavelet Graph matching kernel)}\cite{ghash}是Wang等人在G-Hash算法中提出的，用于度量图相似度的一个核心函数。其思想是先通过压缩每个节点周围邻接节点的属性信息，然后应用非递归线性核去计算图之间的相似度。这个方法包含两个重要的概念：\emph{h-hop邻域}和\emph{离散小波变换}。用$N_h (v)$标记一个节点$v$的\emph{h跳邻域}，代表一个距离节点$v$最短距离是$h$跳(跳过$h$个节点,也就是$h+1$的曼哈顿距离)的节点集合。\emph{离散小波变换}涉及到一个小波函数的定义，见下文公式\eqref{eq:wavelet} ,也用到了$h$跳邻域。
 \begin{equation}
     \psi_{j,k}=\frac{1}{h+1}\int_{j/(k+1)}^{(j+1)/(k+1)}\varphi(x)dx
     \label{eq:wavelet}
@@ -43,7 +43,7 @@ WA方法是一种很好的利用核函数进行图相似度定义的方法。但
 \subsection{G-Hash中的图相似性定义}
 图相似性有很多种定义方式有很多，第\ref{chap:background}章中介绍的\emph{图编辑距离}和\emph{最大公共子图}就是两种常用的图相似度度量方法。
 
-G-Hash中是利用核函数计算两图相似性的。公式\ref{eq:ghashDistance}就是两图相似度距离的定义。
+G-Hash中是利用核函数计算两图相似性的。公式\eqref{eq:ghashDistance}就是两图相似度距离的定义。
 \begin{equation}
 \begin{split}
     &d(G,G')=\sqrt{\|\phi(G)-\phi(G')\|_{2}^{2}}\\
@@ -71,7 +71,7 @@ $simi(v)$是一个包含着图$G$和节点$v$哈希到同一个位置的节点�
 
 $|simi(v)|$是在$simi(v)$中的节点数目。这意味着我们只需要数据图$G$中和查询$G'$相似的点个数，其和就是我们要求的核。同理，我们可以这样计算每个图与其自己的核。显然，每个图与自己的核就是节点数目。
 
-所以公式\ref{eq:ghashDistance}最终变成公式\ref{eq:ghashfinal},其中$|V_{G}|$代表图$G$的节点数。
+所以公式\eqref{eq:ghashDistance}最终变成公式\eqref{eq:ghashfinal},其中$|V_{G}|$代表图$G$的节点数。
 \begin{equation}
     d(G,G')=\sqrt{|V_{G}|+|V_{G'}| -2\sum_{v\in G'}|simi(v)| }
     \label{eq:ghashfinal}
@@ -92,14 +92,28 @@ $|simi(v)|$是在$simi(v)$中的节点数目。这意味着我们只需要数据
 \section{基于节点相似度的图相似性搜索}
 本算法和G-Hash\cite{ghash}基本类似，只是在查询过程计算相似度时没有利用哈希特征找到相似的节点，而是利用节点相似度来计算相似度。这样避免了由于哈希函数选取不当造成的相似节点不在靠近位置的问题。用普通的枚举虽然理论复杂度从$O(1)$变为了$O(n)$但是提高了查询准确度，并且由于哈希存在冲突，而实际图节点一般最多为千个等情况，我们算法的运行效率并不比G-Hash低，甚至在某些情况下会略好于G-Hash算法，而且编码难度也大大降低。本节将从数据库构建，查询过程，数据库维护，编码设计四个方面详细说明我们提出的基于节点相似度的图相似性搜索算法。
 \subsection{数据库构建}
-首先统计数据库中的不同标号数目，然后将数据库中的每幅图都用简化包表示，选取节点标号和与其直接连接的各标号个数作为特征值。归一化后变成字符串，利用红黑树建立Bag编号与字符串的对应关系。之所以选用红黑树而不是哈希表是因为对于纯字符串结构红黑树的表现要好于哈希表。然后再以Bag编号为图，图序号为列建立一个二维表，每个值代表在此图中此种节点有几个。最终数据库如图\ref{fg:ghashdatabase}所示。
-\todo{补充一张红黑树的图，一张数据库table}
-\begin{figure}
+首先统计数据库中的不同标号数目，然后将数据库中的每幅图都用简化包表示，选取节点标号和与其直接连接的各标号个数作为特征值。归一化后变成字符串，利用红黑树建立Bag编号与字符串的对应关系。之所以选用红黑树而不是哈希表是因为对于纯字符串结构红黑树的表现要好于哈希表。然后再以Bag编号为图，图序号为列建立一个二维表，每个值代表在此图中此种节点有几个。最终数据库如表\ref{tb:ghashdatabase}所示。
+%
+%\begin{figure}
+%    
+%    \caption{红黑树示例}
+%    \label{fg:ghashdatabase}
+%\end{figure}
+\begin{table}[htb]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+        Bag编号 & $G_1 $ & $G_2 $ & $G_3 $ \\\hline
+        1 & 0 & 3 & 1 \\\hline
+        2 & 1 & 0 & 2 \\\hline
+        3 & 4 & 2 & 1 \\\hline
+        4 & 2 & 3 & 0 \\\hline
+    \end{tabular}
     \caption{数据库示例}
-    \label{fg:ghashdatabase}
-\end{figure}
+    \label{tb:ghashdatabase}
+\end{table}
 \subsection{查询前K个相似图}
-首先，我们参考G-Hash的图距离函数定义了我们的基于节点相似度的图距离函数，即公式\eqref{eq:ghashfinalreal}。\todo{修改公式引用改为eqref}
+首先，我们参考G-Hash的图距离函数定义了我们的基于节点相似度的图距离函数，即公式\eqref{eq:ghashfinalreal}。
 \begin{equation}
      d(G,G')=\sqrt{|V_{G}|+|V_{G'}| -2\sum_{v\in G',u\in G}simi(v,u)}
      \label{eq:ghashfinalreal}
@@ -125,10 +139,10 @@ $|simi(v)|$是在$simi(v)$中的节点数目。这意味着我们只需要数据
 \subsection{实验环境}
 本文提出算法的实验环境为CPU Intel Core i7,主频为1.7 GHz，内存为8 GB 1600 MHz DDR3，硬盘为128GB SSD，操作系统为Mac OS X Yosemite 10.10.3；所有算法均用Java语言在JDK1.7u71环境编译完成。
 \subsection{实验数据分析}
-实验数据全采用真实数据，为DTP提供的AIDS数据集。可从以下网址得到:\url{https://wiki.nci.nih.gov/display/NCIDTPdata/AIDS+Antiviral+Screen+Data}。我们从其数据库中随机抽取了1000,2000,4000,8000，16000个图作为我们的查询集合。数据集平均每幅图有41条节点，48条边。由于未能联系到原作者，实验中用于对照的G-Hash算法也是我们根据G-Hash论文\cite{ghash}自行仿写的。
+实验数据全采用真实数据，为DTP提供的AIDS数据集。可从以下网址得到:\url{https://wiki.nci.nih.gov/display/NCIDTPdata/AIDS+Antiviral+Screen+Data}。我们从其数据库中随机抽取了1000,2000,4000,8000，16000个图作为我们的查询集合。数据集平均每幅图有41条节点，48条边。所有实验运行10次取平均值。由于未能联系到原作者，实验中用于对照的G-Hash算法也是我们根据G-Hash论文\cite{ghash}自行仿写的。
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=\textwidth]{../figures/THC/G-Hashcomapre}
+    \includegraphics[width=0.6\textwidth]{../figures/THC/G-Hashcomapre}
     \caption{查询时间对比图}
     \label{fg:ghashtime}
 \end{figure}
