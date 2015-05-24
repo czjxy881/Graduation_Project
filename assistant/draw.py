@@ -7,8 +7,9 @@ TODO:
 '''
 from pylab import *
 import sys
+
 def draw(FileName,Title,XLabel,YLabel):
-	draw_lines=['k-','k--','k-.','k:','ks--','kp--','k*--','k+--','kx--','kD--','kd--'];#线条种类
+	draw_lines=['ks-','kD-','kd-','k*-','kp-','ko-','t1-'];#线条种类
 	draw_index=0; #线条的索引
 	f=open(FileName);
 	x=f.readline();
@@ -37,7 +38,8 @@ def draw(FileName,Title,XLabel,YLabel):
 	legend(loc=2)#0自动 1 右上 2左上
 	#picName=FileName.split('.')[0]+'.eps'
 	#show()
-	savefig(FileName.split('.')[0]+'.eps')
+	print(FileName)
+	savefig(FileName.rsplit('.',1)[0]+'.eps')
 
 if __name__=='__main__':
 	FileName='dataResult/BuildResult_4_6_10-1.txt'
