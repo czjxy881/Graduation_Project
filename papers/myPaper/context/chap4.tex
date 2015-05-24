@@ -167,9 +167,24 @@ ULLMANN算法是Ullmann教授1976年提出的一种经典图同构算法，其�
 \subsection{实验环境}
 本文提出算法的实验环境为CPU Intel Core i7,主频为1.7 GHz，内存为8 GB 1600 MHz DDR3，硬盘为128GB SSD，操作系统为Mac OS X Yosemite 10.10.3；所有算法均用C语言在clang 600.0.56环境编译完成。
 \subsection{实验数据分析}
-实验数据全采用真实数据，为DTP提供的AIDS数据集。可从以下网址得到:\url{https://wiki.nci.nih.gov/display/NCIDTPdata/AIDS+Antiviral+Screen+Data}。我们从其数据库中随机抽取了1000,2000,4000,16000个图作为我们的查询集合。
-\todo{补充实验}
+实验数据全采用真实数据，为DTP提供的AIDS数据集。可从以下网址得到:\url{https://wiki.nci.nih.gov/display/NCIDTPdata/AIDS+Antiviral+Screen+Data}。我们从其数据库中随机抽取了1000,2000,4000,8000,16000个图作为我们的查询集合。所有实验运行10次取平均值。
 
+实验结果如图\ref{fg:THCBuild},\ref{fg:THCRun}所示，THC为Twice Hash Chain(二次哈希开链法)的缩写。我们测试了不同最大长度$l_p $下两个算法的表现。
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../figures/THC/BuildCompare_4_6_10}%
+    \includegraphics[width=0.5\textwidth]{../figures/THC/BuildCompare_4_6}
+    \caption{建库时间比较}
+    \label{fg:THCBuild}
+\end{figure}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{../figures/THC/ExceCompare_4_10}
+    \caption{运行时间比较}
+    \label{fg:THCRun}
+\end{figure}
+
+由图可知，二次哈希开链的确有效减少了冲突，提高了建库速度与查询速度。
 
 \ifx\allfiles\undefined
 \bibliographystyle{unsrt}

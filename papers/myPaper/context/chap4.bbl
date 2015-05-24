@@ -1,24 +1,24 @@
 \begin{thebibliography}{1}
 
-\bibitem{graphgrep}
-Rosalba Guigno and Dennis Shasha.
-\newblock Graphgrep : A fast and universal method for querying graphs.
-\newblock 2002.
-
 \bibitem{ullmann}
 J.R.ULLMANN.
 \newblock An algorithm for subgraph isomorphism.
 \newblock {\em Journal Association for Commputing Machinery}, 23(1):31--42,
   January 1976.
 
-\bibitem{inclusionlogic}
-Yan X, Yu~P S, and Han J.
-\newblock Graph-based substructure pattern mining.
-\newblock {\em ICDE 2002}, 2002.
-
 \bibitem{datastruct}
 严蔚敏，吴伟民.
 \newblock {\em 数据结构(C语言版)}.
 \newblock 清华大学出版社, 2011.
+
+\bibitem{graphgrep}
+Rosalba Guigno and Dennis Shasha.
+\newblock Graphgrep : A fast and universal method for querying graphs.
+\newblock 2002.
+
+\bibitem{inclusionlogic}
+Yan X, Yu~P S, and Han J.
+\newblock Graph-based substructure pattern mining.
+\newblock {\em ICDE 2002}, 2002.
 
 \end{thebibliography}
