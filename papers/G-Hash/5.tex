@@ -31,8 +31,12 @@ WA,G-Hash,C-tree,GraphGrep和gIndex的参数是这样设置的。对于WA和G-ha
 \subsection{数据集}
 我们选用许多数据集来进行试验。前五个数据集是从从Jorisson/Gilson数据集获得的已有数据。接下来六个是从BindingDB数据集中抽取的，最后一个是NCI/NIH 艾滋病筛选集里的，表1显示了这些数据集和其基本情况。
 \subsubsection{Jorissen数据集}
-Jorissen数据集主要为一些包含活动的化学结构信息
+Jorissen数据集主要为一些包含活动蛋白质的的化学结构信息。我们以药物对特定蛋白质的吸引力作为的目标值。我们选取了5个包含100个分子结构的蛋白质作为测试目标，其中50个化学结构连接着蛋白质，另外50个没连接到蛋白质上。参考文献14来查看详细信息。
 
+\subsubsection{NCI/NIH AIDS抗体数据库}
+NCI/NIH艾滋病抗体数据库包含42390个化学结构，总共有63种分子，最常见的是，C,O,N,S。数据集包括三种边，单边，双边，芬香边。我们选取了所有结构作为数据库，并随机选取1000个化学结构作为查询集合。
+\subsection{利用分类做节点相似性度量}
+我们用不同的相似性度量方法比较\emph{k}-NN分类器在Jorissen数据集和BindingDB数据集上的分类精确度。对于WA算法，我们采用小波匹配核函数
 
 \ifx\allfiles\undefined
 %\renewcommand\refname{参考文献}
