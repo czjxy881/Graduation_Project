@@ -36,7 +36,30 @@ Jorissen数据集主要为一些包含活动蛋白质的的化学结构信息。
 \subsubsection{NCI/NIH AIDS抗体数据库}
 NCI/NIH艾滋病抗体数据库包含42390个化学结构，总共有63种分子，最常见的是，C,O,N,S。数据集包括三种边，单边，双边，芬香边。我们选取了所有结构作为数据库，并随机选取1000个化学结构作为查询集合。
 \subsection{利用分类做节点相似性度量}
-我们用不同的相似性度量方法比较\emph{k}-NN分类器在Jorissen数据集和BindingDB数据集上的分类精确度。对于WA算法，我们采用小波匹配核函数
+我们用不同的相似性度量方法比较\emph{k}-NN分类器在Jorissen数据集和BindingDB数据集上的分类精确度。对于WA算法，我们采用小波匹配核函数来获得核矩阵，然后计算距离矩阵来获得最近的k个最相似的图。对于G-Hash，我们根据之前描述的算法计算核函数，然后找出最相似的k个图。对于C-tree，我们直接找回最相似的子图。我们用标准的5-fold交叉验证来获得分类准确度，$(TP+TN)/S$，其中$TP$表示真正结果的数目，$TN$表示真负的数目，$S$是全部的数据图数目。在本实验中，我们取$k=5$。
+
+实验结果如图\ref{fg:ac}所示。
+\begin{figure}
+    \centering
+    \caption{精确性对比图}
+    \label{fg:ac}
+\end{figure}
+\subsection{伸缩性}
+\subsection{索引构建时间}
+实验结果如图\ref{fg:bb}所示
+\begin{figure}
+    \centering
+    \caption{构造时间对比图}
+    \label{fg:bb}
+\end{figure}
+\subsection{查询时间}
+实验结果如图\ref{fg:ee}}所示
+\begin{figure}
+    \centering
+    \caption{查询时间对比图}
+    \label{fg:ee}
+\end{figure}
+
 
 \ifx\allfiles\undefined
 %\renewcommand\refname{参考文献}
