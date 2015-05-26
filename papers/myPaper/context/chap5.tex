@@ -14,7 +14,7 @@
 \section{相关概念}
 本节主要介绍下下文介绍算法时会用到的一些概念，包括小波图匹配核函数，G-Hash中的图相似度定义，节点相似度定义三部分。
 \subsection{小波图匹配核函数}
-\emph{小波图匹配核函数(Wavelet Graph matching kernel)}\cite{ghash}是Wang等人在G-Hash算法中提出的，用于度量图相似度的一个核心函数。其思想是先通过压缩每个节点周围邻接节点的属性信息，然后应用非递归线性核去计算图之间的相似度。这个方法包含两个重要的概念：\emph{h-hop邻域}和\emph{离散小波变换}。用$N_h (v)$标记一个节点$v$的\emph{h跳邻域}，代表一个距离节点$v$最短距离是$h$跳(跳过$h$个节点,也就是$h+1$的曼哈顿距离)的节点集合。\emph{离散小波变换}涉及到一个小波函数的定义，见下文公式\eqref{eq:wavelet} ,也用到了$h$跳邻域。
+\emph{小波图匹配核函数(Wavelet Graph matching kernel)}\cite{ghash}是Wang等人在G-Hash算法中提出的，用于度量图相似度的一个核心函数。其思想是先通过压缩每个节点周围邻接节点的属性信息，然后应用非递归线性核去计算图之间的相似度。这个方法包含两个重要的概念：\emph{h-hop邻域}和\emph{离散小波变换}。用$N_h (v)$标记一个节点$v$的\emph{h跳邻域}，代表一个距离节点$v$最短距离是$h$跳(跳过$h$个节点，也就是$h+1$的曼哈顿距离)的节点集合。\emph{离散小波变换}涉及到一个小波函数的定义，见下文公式\eqref{eq:wavelet} ，也用到了$h$跳邻域。
 \begin{equation}
     \psi_{j,k}=\frac{1}{h+1}\int_{j/(k+1)}^{(j+1)/(k+1)}\varphi(x)dx
     \label{eq:wavelet}
@@ -25,7 +25,7 @@ $\varphi(x)$代表\emph{Haar}或者\emph{Mexican Hat}小波函数，$h$是在将
     \Gamma_h (v)=C_{h,v}\times\sum_{j=0}^k \psi_{j,k}\times\bar{f}_j (v)
     \label{eq:wm}
 \end{equation}
-其中,$C_{h,v}$是一个归一化因子
+其中，$C_{h,v}$是一个归一化因子
 \begin{equation}
     C_{h,v}=(\sum_{j=0}^h \frac{\psi_{j,h}^2 }{|N_h (v)|})^{-1/2},
 \end{equation}
@@ -33,7 +33,7 @@ $\bar{f}_{j}(v)$是离节点$v$最远距离为$j$的原子特征向量的平均�
 \begin{equation}
     \bar{f}_{j}(v)=\frac{1}{|N_{j}(v)|}\sum_{u\in N_{j}(v)}f_u
 \end{equation}
-$f_u $表示节点$v$的特征向量值。这样的特征向量值只会是下面四种中的一种：定类，定序，定距，定比。对于定比和定距特征值，直接在上述的小波分析时代入其值即可得到局部特征值。对于定类和定序节点特征，我们首先建立一个直方图，然后用小波分析提取出特征值。在节点$v$分析完成后，我们可以得到一个节点列表$\Gamma^h (v)=\{\Gamma_{1}(v),\Gamma_{2}(v),...,\Gamma_{h}(v)\}$,我们称其为小波测度矩阵。用此方法我们可以将一个图转换为一个节点向量集合。因为小波变换有明确的正负区域，所以这些小波压缩特征可以表示出局部的邻接节点和距离较远的邻接节点的差异。因此，通过小波变换，一幅图的结构化信息可以压缩成节点特征。从而我们可以忽略拓扑结构来专心于节点匹配。核函数就是建立在这些集合上的，我们以图$G$和$G'$为例，图匹配核函数是这样的
+$f_u $表示节点$v$的特征向量值。这样的特征向量值只会是下面四种中的一种：定类，定序，定距，定比。对于定比和定距特征值，直接在上述的小波分析时代入其值即可得到局部特征值。对于定类和定序节点特征，我们首先建立一个直方图，然后用小波分析提取出特征值。在节点$v$分析完成后，我们可以得到一个节点列表$\Gamma^h (v)=\{\Gamma_{1}(v),\Gamma_{2}(v),...,\Gamma_{h}(v)\}$，我们称其为小波测度矩阵。用此方法我们可以将一个图转换为一个节点向量集合。因为小波变换有明确的正负区域，所以这些小波压缩特征可以表示出局部的邻接节点和距离较远的邻接节点的差异。因此，通过小波变换，一幅图的结构化信息可以压缩成节点特征。从而我们可以忽略拓扑结构来专心于节点匹配。核函数就是建立在这些集合上的，我们以图$G$和$G'$为例，图匹配核函数是这样的
 \begin{gather}
     k_{m}(G,G')=\sum_{(u,v)\in V(G)\times V(G')}K(\Gamma^{h}(u),\Gamma^h (v) ), \\
     K(X,Y)=e^{\frac{-\|X-Y\|_{2}^{2}}{2}}.
@@ -46,7 +46,7 @@ WA方法是一种很好的利用核函数进行图相似度定义的方法。但
 G-Hash中是利用核函数计算两图相似性的。公式\eqref{eq:ghashDistance}就是两图相似度距离的定义。
 \begin{equation}
 \begin{split}
-    &d(G,G')=\sqrt{\|\phi(G)-\phi(G')\|_{2}^{2}}\\
+    d(G,G')&=\sqrt{\|\phi(G)-\phi(G')\|_{2}^{2}}\\
               &=\sqrt{\langle\phi(G)-\phi(G'),\phi(G)-\phi(G')\rangle}\\
               &=\sqrt{\langle\phi(G),\phi(G)\rangle+\langle\phi(G'),\phi(G')\rangle-2\langle\phi(G),\phi(G')\rangle}\\
               &=\sqrt{k_{m}(G,G)+k_{m}(G',G')-2k_{m}(G,G')}
@@ -71,7 +71,7 @@ $simi(v)$是一个包含着图$G$和节点$v$哈希到同一个位置的节点�
 
 $|simi(v)|$是在$simi(v)$中的节点数目。这意味着我们只需要数据图$G$中和查询$G'$相似的点个数，其和就是我们要求的核。同理，我们可以这样计算每个图与其自己的核。显然，每个图与自己的核就是节点数目。
 
-所以公式\eqref{eq:ghashDistance}最终变成公式\eqref{eq:ghashfinal},其中$|V_{G}|$代表图$G$的节点数。
+所以公式\eqref{eq:ghashDistance}最终变成公式\eqref{eq:ghashfinal}，其中$|V_{G}|$代表图$G$的节点数。
 \begin{equation}
     d(G,G')=\sqrt{|V_{G}|+|V_{G'}| -2\sum_{v\in G'}|simi(v)| }
     \label{eq:ghashfinal}
@@ -83,7 +83,7 @@ $|simi(v)|$是在$simi(v)$中的节点数目。这意味着我们只需要数据
 \begin{defn}[节点相似度]
     用\emph{简化包(Reduced Bag)}表示的两个节点字符串之间的相似度节点相似度称为\emph{节点相似度}。
 \end{defn}
-因为简化包表示的字符串实质上是一个向量，如$'a,1,0,1'$就可以看做一个向量$\vec{A}=(a,1,0,1) $,所以对于字符串的距离，也就是节点相似度，可以用公式\eqref{eq:stringdis}计算。
+因为简化包表示的字符串实质上是一个向量，如$'a,1,0,1'$就可以看做一个向量$\vec{A}=(a,1,0,1) $，所以对于字符串的距离，也就是节点相似度，可以用公式\eqref{eq:stringdis}计算。
 \begin{equation}
     simi(A,B)=\frac{\vec{A}\times \vec{B}}{||\vec{A}|\times |\vec{B}||} \leq 1
     \label{eq:stringdis}
@@ -137,9 +137,9 @@ $|simi(v)|$是在$simi(v)$中的节点数目。这意味着我们只需要数据
 
 \section{实验结果与分析}
 \subsection{实验环境}
-本文提出算法的实验环境为CPU Intel Core i7,主频为1.7 GHz，内存为8 GB 1600 MHz DDR3，硬盘为128GB SSD，操作系统为Mac OS X Yosemite 10.10.3；所有算法均用Java语言在JDK1.7u71环境编译完成。
+本文提出算法的实验环境为CPU Intel Core i7，主频为1.7 GHz，内存为8 GB 1600 MHz DDR3，硬盘为128GB SSD，操作系统为Mac OS X Yosemite 10.10.3；所有算法均用Java语言在JDK1.7u71环境编译完成。
 \subsection{实验数据分析}
-实验数据全采用真实数据，为DTP提供的AIDS数据集。可从以下网址得到:\url{https://wiki.nci.nih.gov/display/NCIDTPdata/AIDS+Antiviral+Screen+Data}。我们从其数据库中随机抽取了1000,2000,4000,8000，16000个图作为我们的查询集合。数据集平均每幅图有41条节点，48条边。所有实验运行10次取平均值。由于未能联系到原作者，实验中用于对照的G-Hash算法也是我们根据G-Hash论文\cite{ghash}自行仿写的。
+实验数据全采用真实数据，为DTP提供的AIDS数据集。可从以下网址得到:\url{https://wiki.nci.nih.gov/display/NCIDTPdata/AIDS+Antiviral+Screen+Data}。我们从其数据库中随机抽取了1000,2000,4000,8000,16000个图作为我们的查询集合。数据集平均每幅图有41条节点，48条边。所有实验运行10次取平均值。由于未能联系到原作者，实验中用于对照的G-Hash算法也是我们根据G-Hash论文\cite{ghash}自行仿写的。
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.8\textwidth]{../figures/THC/G-Hashcomapre}

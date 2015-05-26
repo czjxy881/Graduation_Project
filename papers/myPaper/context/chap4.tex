@@ -16,7 +16,7 @@
 本节将介绍三种常用的解决哈希冲突的方法，开放定址法，开链法，再哈希法。
 
 \subsection{开放定址法}
-开放定址法\cite{datastruct}是一种常用的处理冲突方法,公式如\eqref{eq:open}所示
+开放定址法\cite{datastruct}是一种常用的处理冲突方法，公式如\eqref{eq:open}所示
 \begin{equation}
     H_i =(H(key)+d_i )MOD\ m\ \  \ i=1,2,...,k(k\leq m-1)
     \label{eq:open}
@@ -26,7 +26,7 @@
 \begin{enumerate}
     \item $d_i =1,2,3,...,m-1$，称线性探测再散列；
     \item $d_i =1^2 ,-1^2 ,2^2 ,-2^2 ,3^2 ,...,\pm k^2 ,(k\leq m/2 ) $，称为二次探测再散列；
-    \item $d_i =$伪随机数序列，称为伪随机探测再散列。
+    \item $d_i =$伪随机数序列，这种方法称为伪随机探测再散列\cite{datastruct}i 。
 \end{enumerate}
 \subsection{开链法}
 开链法又称链地址法\cite{datastruct}，是将所有关键字为同义词的记录存储在同一线性链表中。
@@ -103,7 +103,7 @@
 \end{algorithmic}
 \end{algorithm}
 
-\emph{BKDRHash}运算简单，速度快，所以作为第一次哈希函数。\emph{APHash}不易冲突，所以作为第二次。
+\emph{BKDRHash}运算简单，速度快，所以作为第一次哈希函数。\emph{APHash}不易冲突，所以作为第二次。不过需要注意的一点是，在某些平台上，位运算不一定比直接乘法快，甚至会慢很多倍。因为哈希运行次数很多，所以实际使用中需要注意这一点。
 
 通过哈希存储，我们可以很便捷得获得各图包含的路径关系表，我们将其存到文件中作为索引，分离查询与建库，进行离线查询加速查询速度。
 
@@ -112,7 +112,7 @@
 \subsection{先验剪枝}
     在介绍本算法的先验剪枝步骤之前，我们先介绍一下\emph{包含逻辑规则(inclusion logic)}。
     \begin{defn}[包含逻辑]\cite{inclusionlogic}
-        对于给定的标号图$g_1 ,g_2 $，和$g_1 $的一个子图$g'$，若$g_1 $是$g_2 $的子图，则$g'$必定是$g_2 $的子图$(g_1 \subseteq g_2 ) \Rightarrow (g' \subseteq g_2  )$。反之，若$g'$不是$g_2 $的子图，则$g_1 $也不可能是$g_2 $的子图$(g' \not\subset g_2  )\Rightarrow (g_1 \not\subset g_2 )$    
+        对于给定的标号图$g_1 ,g_2 $，和$g_1 $的一个子图$g'$，若$g_1 $是$g_2 $的子图，则$g'$必定是$g_2 $的子图$(g_1 \subseteq g_2 ) \Rightarrow (g' \subseteq g_2  )$，反之，若$g'$不是$g_2 $的子图，则$g_1 $也不可能是$g_2 $的子图$(g' \not\subset g_2  )\Rightarrow (g_1 \not\subset g_2 )$    
     \end{defn}
     从包含逻辑规则中，我们可以得知如果查询图$g_1 $中的子图$g'$不是数据图$g_2 $的子图，那么$g_2 $就不可能是$g_1 $的超图，因此可以放心得把$g_2 $从候选集中删去。这就大大加速了“过滤-验证”框架中过滤阶段的过滤速度。
     
@@ -136,7 +136,7 @@
         \end{aligned}
         $$
         \item 在路径合成前，我们就可以利用节点信息删去$g_3$，因为$g_3$的$ABCA$中两个$A$一个是1，一个是4，并非同一节点。
-        \item 我们将ABCA和CB合成,我们知道其中两个$A$是统一节点，两个$C$是同一节点，而两个$B$不是。我们得到合成结果:
+        \item 我们将ABCA和CB合成，我们知道其中两个$A$是统一节点，两个$C$是同一节点，而两个$B$不是。我们得到合成结果:
         $$
         \begin{aligned}
             g_1 &:ABCACB={(1,0,3,1),(3,2)}\\
@@ -172,7 +172,7 @@ ULLMANN算法是Ullmann教授1976年提出的一种经典图同构算法，其�
 
 \section{实验结果与分析}
 \subsection{实验环境}
-本文提出算法的实验环境为CPU Intel Core i7,主频为1.7 GHz，内存为8 GB 1600 MHz DDR3，硬盘为128GB SSD，操作系统为Mac OS X Yosemite 10.10.3；所有算法均用C语言在clang 600.0.56环境编译完成。
+本文提出算法的实验环境为CPU Intel Core i7，主频为1.7 GHz，内存为8 GB 1600 MHz DDR3，硬盘为128GB SSD，操作系统为Mac OS X Yosemite 10.10.3；所有算法均用C语言在clang 600.0.56环境编译完成。
 \subsection{实验数据分析}
 实验数据全采用真实数据，为DTP提供的AIDS数据集。可从以下网址得到:\url{https://wiki.nci.nih.gov/display/NCIDTPdata/AIDS+Antiviral+Screen+Data}。我们从其数据库中随机抽取了1000,2000,4000,8000,16000个图作为我们的查询集合。数据集平均每幅图有41条节点，48条边。所有实验运行10次取平均值。
 \begin{figure}[htb]
