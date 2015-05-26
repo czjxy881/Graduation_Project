@@ -2,43 +2,49 @@
 %!TEX encoding = UTF-8 Unicode
 
 
-\documentclass{article}
+\documentclass{XDBAthesis}
 \usepackage{geometry}
 \def\allfiles{}
-\usepackage{indentfirst} %首行缩进
-\usepackage{amsmath}%换行
-\usepackage{ctex}
-\usepackage{amsfonts, amssymb}%数学字体
-\usepackage{tikz}%绘图
-\usepackage{subfigure}
-\usepackage{graphicx}
-\usepackage{caption}
-\makeatletter
-\newcommand\figcaption{\def\@captype{figure}\caption} 
-\newcommand\tabcaption{\def\@captype{table}\caption}
-\renewcommand\figurename{图} 
-\makeatother
-\usepackage{float}
-\usepackage[bookmarksnumbered]{hyperref}
+%\usepackage{indentfirst} %首行缩进
+%\usepackage{amsmath}%换行
+%\usepackage{ctex}
+%\usepackage{amsfonts, amssymb}%数学字体
+%\usepackage{tikz}%绘图
+%\usepackage{subfigure}
+%\usepackage{graphicx}
+%\usepackage{caption}
+%\makeatletter
+%\newcommand\figcaption{\def\@captype{figure}\caption} 
+%\newcommand\tabcaption{\def\@captype{table}\caption}
+%\renewcommand\figurename{图} 
+%\makeatother
+%\usepackage{float}
+%\usepackage[bookmarksnumbered]{hyperref}
+%
+%
 
-
-\title{G-HASH\cite{G-HASH}}
-\author{贾新禹}
 \begin{document}
-\maketitle
+      \class{031111}
+    \schoolnumber{03111002}
+    \title{翻译:G-Hash}{}   %%题目超过14个字把剩下的放到第二个空
+    \college{计算机学院}
+    \major{计算机科学与技术}
+    \author{贾新禹}
+    \advisor{霍红卫}
+    \maketitle
 \tableofcontents
-\clearpage
+
 \input{0}
-\clearpage
+
 \input{1}
 \input{2}
 \input{3}
 \input{4}
 \input{4.2}
 \input{5}
+\input{6}
 
-\clearpage
-\renewcommand\refname{参考文献}
+
 \bibliographystyle{unsrt}
-\bibliography{G-Hash翻译}
+%\bibliography{G-Hash翻译}
 \end{document}
