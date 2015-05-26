@@ -156,11 +156,23 @@ void AddPathInHashTable(Path pt,int lengthpath, int ELM)
 		k=0;
 		while(pt->types[pt->path[i]][k] != '\0' && pt->types[pt->path[i]][k] != '\n' )
 		  {
-			 h=(64*h + pt->types[pt->path[i]][k]) % HASHP;
+			 h=(h*64 + pt->types[pt->path[i]][k]) % HASHP;
 			 k++;
 		  }
 	 }
-  
+  /*
+  unsigned int H=0;3FF
+  for(i=0; i<=lengthpath; i++) //对路径上的节点做hash
+	 {
+		k=0;
+		while(pt->types[pt->path[i]][k] != '\0' && pt->types[pt->path[i]][k] != '\n' )
+		  {
+			 H=(H<<6 + pt->types[pt->path[i]][k]) ;
+			 k++;
+		  }
+	 }
+  h=(H&0x7FFFFFFF)% HASHP;
+  */
   pt->DBhash[h*ELM+pt->cont]++;	
   newlistpaths=(listpaths *) calloc(sizeof(listpaths),1);  
   assert(newlistpaths!=NULL);
