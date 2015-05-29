@@ -1,0 +1,26 @@
+.
+├── Formal 					 	最终的打印文档，现还差成绩登记表
+├── G-Hash 					 	基于G-Hash的相似搜索算法
+│   ├── G-Hash.asta 		 	类图 
+│   ├── G-Hash类图.jpg
+│   ├── bin
+│   └── src  				 	java代码 eclipse工程
+├── assistant 				 	辅助的一些脚本
+│   ├── AIDS_data_input 	 	AIDS数据库的提取程序，用于从AIDS集里随机抽取图  用法: ./AIDS_data_input xxx k 代表从xxx中抽取k个图 并存到data/xxx-k中
+│   ├── AIDS_data_input.cpp
+│   ├── MyBuild.sh 				自动修改lp并且编译运行graphgrep的构建，分别对1000,2000,4000,8000,16000做测试输出时间到MydataResult  用法: ./MyBuild.sh 4 6 10 代表以lp为4，6，10运行，结果存为BuildResult_4_6_10.txt
+│   ├── MyExce.sh				同MyBuild，但是是查询时间
+│   ├── MydataResult 			自己算法运行结果集合
+│   ├── RunBuild.sh				同MyBuild，只是这个为原版graphgrep建库时间
+│   ├── RunExce.sh				同MyExce，只是这个为原版graphgrep查询时间
+│   ├── data 					数据集
+│   ├── dataResult 				原版运行结果
+│   ├── draw.py 				绘图python，按照BuildResult的标准格式绘图，横纵轴为build
+│   └── drawEx.py 				同draw 横纵抽为exce
+├── graphgrep 					基于Graphgrep的精确搜索代码
+│   ├── graphbuild
+│   ├── graphgrep
+│   └── src
+└── papers  					文档的tex代码，均为xelatex，utf8格式
+    ├── G-Hash
+    └── myPaper

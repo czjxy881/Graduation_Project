@@ -1,5 +1,0 @@
-INTERSECT qoutable0 ^CCCO 2 ^CC 0
-TESTUNIQUE qoutable1 qoutable0  0 1 3 5
-CARTESIANPRODUCT qout0 qoutable1 ^C
-TESTUNIQUE qout1 qout0  0 1 3 5 -1
-SPIT qout1
