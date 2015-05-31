@@ -52,7 +52,7 @@ int LengthPath;
 int avn;        /* average number of nodes in the graphs in dataset file*/
 int avl;       /* average length of node types */
 double aves;   /* percentage of memory not used, see stringset.c */
-
+int hashccc;
 
 
 /* ********************************************************************** */

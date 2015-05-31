@@ -1651,7 +1651,7 @@ void QueryRunAlgebra(Query q, int *row, char *str1, int dbsize)
       t1=(double)clock();
 
 	  if(q->visitnode!=NULL){
-		q->visitnode==NULL;
+		q->visitnode=NULL;
 		assert(q->visitnode!=NULL);
 	  }
 

@@ -25,7 +25,7 @@ int avn;			  /* average number of nodes in the graphs in dataset file*/
 int numg; 	     /* number of graphs in the input file */
 int avl;			  /* average length of node types */
 double aves;	  /* percentage of memory not used, see stringset.c */
-
+int hashccc;
 
 
 /* ********************************************************************** */
@@ -122,7 +122,7 @@ int main( int argc, char **argv)
   Path path;      /* see path.c  */
   int i,j;
   double t1, t2, t3;	/* to time graphbuild*/
-
+  hashccc=0;
   
   /* ********************************************************************** */
   /*
@@ -165,7 +165,7 @@ int main( int argc, char **argv)
   //To time graphbuild 
   t2=(((double)clock())/((double)CLOCKS_PER_SEC));
   printf("time:%g\n",t2-t1);
-  
+ // printf("%d\n",hashccc);
   return 0;
 
 }

@@ -8,7 +8,7 @@
 /* ********************************************************************** */
 #include "common.h"
 #include "path.h"
-
+extern int hashccc;
 
 typedef struct listpaths {	/* It contains id-node-paths of a type-path. */
   int *info;	            /* id-nodes */
@@ -128,16 +128,17 @@ int *PathReturnFingerprintspaths(Path pt)
 void AddPathInQueryHashTable(Path pt,int lengthpath)
 {
   int h,k,i;
-  h=0;
-  for(i=0; i<=lengthpath; i++)
+  unsigned int H=0;
+  for(i=0; i<=lengthpath; i++) //对路径上的节点做hash
 	 {
 		k=0;
 		while(pt->types[pt->path[i]][k] != '\0' && pt->types[pt->path[i]][k] != '\n' )
 		  {
-			 h=(64*h + pt->types[pt->path[i]][k]) % HASHP;
+			 H=(H<<6) + pt->types[pt->path[i]][k] ;
 			 k++;
 		  }
 	 }
+  h=(H&0x7FFFFFFF)% HASHP;
   pt->hashpaths[h]++;
 }
 
@@ -149,7 +150,7 @@ void AddPathInHashTable(Path pt,int lengthpath, int ELM)
 
   int i,k,h,flg;
   listpaths *newlistpaths,*ns,*np; 
-
+  /*
   h=0;
   for(i=0; i<=lengthpath; i++) //对路径上的节点做hash
 	 {
@@ -160,19 +161,47 @@ void AddPathInHashTable(Path pt,int lengthpath, int ELM)
 			 k++;
 		  }
 	 }
-  /*
-  unsigned int H=0;3FF
+   
+  */
+  unsigned int H=0;
   for(i=0; i<=lengthpath; i++) //对路径上的节点做hash
 	 {
 		k=0;
 		while(pt->types[pt->path[i]][k] != '\0' && pt->types[pt->path[i]][k] != '\n' )
 		  {
-			 H=(H<<6 + pt->types[pt->path[i]][k]) ;
+			 H=(H<<6) + pt->types[pt->path[i]][k] ;
 			 k++;
 		  }
 	 }
   h=(H&0x7FFFFFFF)% HASHP;
-  */
+  //*/
+  /*
+  if(pt->hashpath[h]!=NULL){
+  	unsigned int H=h;h=0;
+  	for(i=0; i<=lengthpath; i++) //对路径上的节点做hash
+	 {
+		k=0;
+		while(pt->types[pt->path[i]][k] != '\0' && pt->types[pt->path[i]][k] != '\n' )
+		  {
+		  	 if(k&1){
+		  	 	h^=(~((h<<11)^(pt->types[pt->path[i]][k])^(h>>5)));
+		  	 }else{
+		  	 	h^=((h<<7)^(pt->types[pt->path[i]][k])^(h>>3));
+		  	 }
+			 k++;
+		  }
+	 }
+	 H=(H&0x7FFFFFFF)% HASHP;
+	 h=(H+h)%HASHP;
+
+
+  }
+	*/
+
+
+
+
+
   pt->DBhash[h*ELM+pt->cont]++;	
   newlistpaths=(listpaths *) calloc(sizeof(listpaths),1);  
   assert(newlistpaths!=NULL);
@@ -197,6 +226,7 @@ void AddPathInHashTable(Path pt,int lengthpath, int ELM)
     }
   else 
     {
+     // hashccc++;
       ns=pt->hashpath[h];
       flg=0;
       while(ns!=NULL && flg!=2)  

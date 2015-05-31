@@ -19,7 +19,7 @@ extern int avn;
 
 extern int avl;
 extern double aves;
-
+extern int hashccc;
 
 
 

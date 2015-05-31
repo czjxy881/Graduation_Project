@@ -84,7 +84,7 @@ int  Hash(char *type, int H) /*64进制 101取模*/
   unsigned int h=H;
   while(type[k] != '\0' && type[k] != '\n' && type[k] !='\r')
     {
-      h=(h<<6 + type[k]);
+      h=(h<<6) + type[k];
       k++;
     }  
   return (h&0x7FFFFFFF)%HASH ;
