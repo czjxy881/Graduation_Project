@@ -9,6 +9,10 @@
 \chapter{背景知识}
 \label{chap:background}
 \section{图基本定义}
+\begin{defn}[有向图]
+    
+\end{defn}
+
 \begin{defn}[标号图]\cite{ghash}
     一个可以被四元组$G=(V,E,\Sigma,\lambda)$表示的图称为\emph{标号图(labeled graph)}，其中$V$为有限的节点集合，$E$为有限的边集合$E\in V\times V$，$\Sigma$是标号集合，$\lambda$是一个标号函数用于给各个节点与边分配标号$\lambda :V\cup E\rightarrow\Sigma$。
 \end{defn}
@@ -29,7 +33,7 @@
     \end{minipage}\hfill
 \end{figure}
 \begin{defn}[子图]
-    如果一幅图$G=(V,E,\Sigma,\lambda)$和另一幅图$G'=(V',E',\Sigma',\lambda')$有1-1映射的关系$f:V\rightarrow V'$，那么图$G$就是$G'$的\emph{子图(subgraph)}，用$G\in G' $表示。$f$需要满足以下几个条件:
+    如果一幅图$G=(V,E,\Sigma,\lambda)$和另一幅图$G'=(V',E',\Sigma',\lambda')$有单射关系$f:V\rightarrow V'$，那么图$G$就是$G'$的\emph{子图(subgraph)}，用$G\in G' $表示。$f$需要满足以下几个条件:
 \begin{itemize}
     \item 对于所有$v\in V,\lambda(v)=\lambda '(f(v))$
     \item 对于所有$(u,v)\in E,(f(u),f(v))\in E$
