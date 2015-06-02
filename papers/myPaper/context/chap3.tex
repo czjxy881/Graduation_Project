@@ -80,13 +80,14 @@ gIndex算法是首个以频繁子结构为索引特征的经典算法，其利�
     \caption{G-Hash查询示例:(a)图数据库{S,T}和查询Q，(b)查询Q的简化包表示，(c)与哈希存储的图数据库匹对，(d)计算匹对结果，(e)排序得出最相似的k个图}
     \label{fg:gHashExample}
 \end{figure}
-\begin{exmp}
+
+
+    \begin{figure}[htb]
+            \begin{exmp}
         图\ref{fg:ghash_index}就是一个G-Hash构建索引的实例。图\ref{fg:ghash_index}(a)是需要存储的一幅图。我们选取节点标签和邻接节点各个标号的个数作为度量特征，所以一共有四个特征。首先统计各个节点周围各个标号的数目，结果如图\ref{fg:ghash_index}(b)所示 。然后用小波函数提取出实际特征值。举例而言，对于$v_{3}$在用$h=0$的小波函数提取后，局部特征是$\lbrack B,2,0,1\rbrack $。将这些表示特征值的字符串利用Hash找到对应位置，然后将对应节点标号填到此位置，最后生成的哈希表如图\ref{fg:ghash_index}(c)所示。而整个数据库生成的哈希表就如图\ref{fg:ghash_index}(d)所示。
         \label{ep:ghash_index}
         
     \end{exmp}
-    
-    \begin{figure}[htb]
             \subfigure[一个简单图P]{   
                 \begin{minipage}{0.5\textwidth}
                     \centering
@@ -136,6 +137,8 @@ gIndex算法是首个以频繁子结构为索引特征的经典算法，其利�
             \label{fg:ghash_index}
         \end{figure}     
 
+
+    
 
 G-Hash算法作为经典的相似性搜索算法，其提出利用核函数计算相似度，成功将结构化特征用数学方法转为数值特征，使得搜索效率有明显提升。但是由于其对哈希函数要求严格，造成编码复杂，而核函数的计算也很耗时，使得此方法实际运用并不多。
 
