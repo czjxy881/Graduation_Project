@@ -10,13 +10,34 @@
 \label{chap:background}
 \section{图基本定义}
 \begin{defn}[有向图]
-    
+    如果图中的所有边都是有方向性的，则称这种图为\emph{有向图}。如图\ref{fg:dd}所示。
 \end{defn}
+\begin{defn}[无向图]
+    如果图中的所有边都没有方向性的，则称这种图为\emph{无向图}。如图\ref{fg:nn}所示。
+
+\end{defn}
+\begin{figure}[htp]
+    \centering
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[scale=.8]{../omnigraffle/Dgraph}
+        \figcaption{有向图}
+        \label{fg:dd}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[scale=.8]{../omnigraffle/ngraph}
+        \figcaption{无向图}
+        \label{fg:nn}
+    \end{minipage}\hfill
+\end{figure}
 
 \begin{defn}[标号图]\cite{ghash}
     一个可以被四元组$G=(V,E,\Sigma,\lambda)$表示的图称为\emph{标号图(labeled graph)}，其中$V$为有限的节点集合，$E$为有限的边集合$E\in V\times V$，$\Sigma$是标号集合，$\lambda$是一个标号函数用于给各个节点与边分配标号$\lambda :V\cup E\rightarrow\Sigma$。
 \end{defn}
 如图\ref{fg:label}就是一个包含六个节点的标号图。需要注意的是标号与标识的区别，标号是图的固有属性，标识只是为了方便使用人为添加的记号。在图\ref{fg:label}中，$v_i $就是标识，而$A,B,C,D$则是标号。
+
+本文中，我们所研究的均是只有节点有标号，边上无标号的无向图。
 
 \begin{figure}[htp]
     \begin{minipage}{0.5\textwidth}
