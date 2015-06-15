@@ -84,7 +84,7 @@
             \State $code \gets code<<6+char$
             \State $char \gets (char.next)$
         \EndWhile
-        \State \Return{$(code\&0\times 7FFFFFFF)\%Mod$}
+        \State \Return{$(code\&0x7FFFFFFF)\%Mod$}
     \EndFunction
     \Function {$h_2 $}{$String$}\Comment{APHash}
         \State $char \gets (string.first)$
@@ -98,7 +98,7 @@
             \EndIf
             \State $char \gets (char.next)$
         \EndWhile
-        \State \Return{$(code\&0\times 7FFFFFFF)\%Mod$}
+        \State \Return{$(code\&0x7FFFFFFF)\%Mod$}
     \EndFunction          
 \end{algorithmic}
 \end{algorithm}
